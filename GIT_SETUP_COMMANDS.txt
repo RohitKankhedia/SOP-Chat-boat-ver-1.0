@@ -1,0 +1,127 @@
+================================================================
+  GIT SETUP — Run these in PowerShell on your VM
+  Do them in order, one block at a time.
+================================================================
+
+STEP 1: Create a clean project folder (no spaces in name)
+----------------------------------------------------------
+Copy-Item -Path "C:\Users\vmuser\Claude\Projects\SOP Chat bot" `
+          -Destination "C:\Users\vmuser\exl-rate-change-intelligence" `
+          -Recurse -Force
+
+cd C:\Users\vmuser\exl-rate-change-intelligence
+
+
+STEP 2: Remove any old git state from Claude's session
+----------------------------------------------------------
+Remove-Item -Recurse -Force .git -ErrorAction SilentlyContinue
+Write-Host "Clean slate ready"
+
+
+STEP 3: Set your git identity (use your GitHub email)
+----------------------------------------------------------
+git config --global user.name  "Rohit Kankhedia"
+git config --global user.email "your-github-email@example.com"
+
+
+STEP 4: Initialize, stage, and commit
+----------------------------------------------------------
+git init -b main
+git add .
+git status
+
+git commit -m "feat: Agentic Rate Change Intelligence v2.0 — Grounded Intelligence Edition
+
+- Tab 1: Rate Change Intelligence Dashboard
+  - 5-factor weighted churn scoring model (rate gap 35%, balance 25%,
+    months remaining 20%, FICO 15%, payment history 5%)
+  - Competitor rate gap analysis (3 banks)
+  - Priority call list with CSV download
+  - AI-generated personalized retention offers (Groq LLaMA 3.3 70B)
+
+- Tab 2: SOP Intelligence Assistant v2.0
+  - Hybrid RAG retrieval: BAAI/bge-small-en-v1.5 + FAISS + BM25 + RRF
+  - Chunk-level citations with section headings and similarity scores
+  - Code-level guardrail: no LLM call if cosine_sim < 0.25
+  - Grounding-based confidence (60% retrieval + 40% LLM self-score)
+  - Multi-file SOP watcher (all files in data/)
+  - Graceful degradation on LLM failure
+
+EXL Hackathon 2026 | Built on EXL Agentic AI Sandbox"
+
+
+STEP 5: Create the GitHub repo (do this in your browser)
+----------------------------------------------------------
+Go to: https://github.com/new
+
+  Repository name:  exl-rate-change-intelligence
+  Description:      Agentic AI system for banking customer retention after Fed rate changes. EXL Hackathon 2026.
+  Visibility:       Public
+  DO NOT check "Add README" or "Add .gitignore" (we already have them)
+
+Click "Create repository"
+
+GitHub will show you a page with commands. Use the ones below instead.
+
+
+STEP 6: Connect and push
+----------------------------------------------------------
+git remote add origin https://github.com/RohitKankhedia/exl-rate-change-intelligence.git
+git push -u origin main
+
+(GitHub will ask for your username + password/token)
+(If you have a Personal Access Token, use that as the password)
+
+
+================================================================
+IF YOU DON'T HAVE A GITHUB TOKEN
+================================================================
+
+Go to: https://github.com/settings/tokens/new
+
+  Note:        EXL Hackathon push
+  Expiration:  7 days
+  Scopes:      check "repo"
+
+Click Generate Token — copy it immediately (shown only once).
+Use it as the password when git asks.
+
+
+================================================================
+VERIFY IT WORKED
+================================================================
+
+git log --oneline
+git remote -v
+
+Then open: https://github.com/RohitKankhedia/exl-rate-change-intelligence
+You should see the README rendered with the v2.0 banner.
+
+
+================================================================
+WHAT'S IN THE REPO (and what's excluded by .gitignore)
+================================================================
+
+INCLUDED:
+  agents/                  — all Python agent files
+  agents/retrieval/        — new RAG retrieval package
+  chatbot/app.py           — main Streamlit app
+  scripts/                 — data generation scripts
+  data/*.docx              — SOP Word documents
+  README.md                — updated v2.0 README
+  PITCH_SCRIPT.txt         — judge presentation script
+  RAG_UPGRADE_PLAN.md      — technical design document
+  COPILOT_REBUILD_PROMPT.txt — full rebuild guide
+  requirements.txt         — dependencies
+  .gitignore
+
+EXCLUDED (regenerated at runtime):
+  data/sop.faiss           — FAISS vector index
+  data/sop_chunks.json     — chunk metadata
+  data/sop_bm25.pkl        — BM25 index
+  data/SOP_extracted.txt   — text cache
+  data/loan_portfolio.csv  — run scripts/generate_portfolio.py
+  data/competitor_rates.csv — run scripts/generate_portfolio.py
+  __pycache__/
+
+================================================================

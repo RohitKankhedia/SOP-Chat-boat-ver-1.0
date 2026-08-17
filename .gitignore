@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+venv/
+env/
+.env
+
+# RAG index files — regenerated automatically at startup
+data/sop.faiss
+data/sop_vectors.npy
+data/sop_chunks.json
+data/sop_bm25.pkl
+data/sop_vectorizer.pkl
+data/SOP_extracted.txt
+
+# Streamlit
+.streamlit/secrets.toml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Secrets
+*.env
+.env.*
+
+# Internal / session files
+NEW_CHAT_HANDOFF_PROMPT.md
+SOP_IT_Helpdesk_Ticket_Handling.docx
+chatbot/chatbot.py
+
+# Root-level SOP copies (use data/ folder only)
+/SOP_Bank_Rate_Change_Process.docx

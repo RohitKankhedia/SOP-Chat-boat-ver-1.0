@@ -1,0 +1,501 @@
+CustomerID,CustomerName,Product,CreditTier,FICO,LoanBalance,CurrentRate,LoanTermMonths,MonthsRemaining,OriginationDate,LastPaymentDate,MissedPayments,State,RelationshipMgr
+CUST-00001,Patricia Nelson,Indirect Auto,Tier 5 - Deep Sub,562,49493.03,14.89,48,17,2025-02-20,2026-06-27,0,TX,Linda Cho
+CUST-00002,Fatima Kim,Indirect Auto,Tier 3 - Near Prime,661,18959.65,8.45,36,15,2025-04-02,2026-07-01,0,KY,Linda Cho
+CUST-00003,Michael Lopez,Indirect Auto,Tier 1 - Super Prime,766,25415.03,5.27,48,16,2025-03-15,2026-07-15,0,OK,Anita Patel
+CUST-00004,Mohammed Thomas,Direct Auto,Tier 4 - Poor,572,48783.91,11.18,36,27,2024-04-20,2026-06-22,0,SC,Linda Cho
+CUST-00005,Mohammed Anderson,Indirect Auto,Tier 3 - Near Prime,666,51384.1,8.34,36,17,2025-02-11,2026-07-10,0,VA,Anita Patel
+CUST-00006,Karen Moore,Indirect Auto,Tier 3 - Near Prime,686,47109.22,8.59,36,13,2025-06-16,2026-07-13,0,MN,Anita Patel
+CUST-00007,Priya Hernandez,Indirect Auto,Tier 3 - Near Prime,667,54308.16,8.79,60,28,2024-03-24,2026-06-19,1,CO,James Okafor
+CUST-00008,Carlos Adams,Business Banking,Prime Business,744,944761.11,9.82,84,23,2024-08-10,2026-07-01,0,VA,Marcus Webb
+CUST-00009,Robert Green,Indirect Auto,Tier 1 - Super Prime,810,34610.95,5.88,36,10,2025-09-16,2026-06-23,0,WA,Sarah Mitchell
+CUST-00010,Karen Ali,Business Banking,Standard Business,715,540257.53,10.54,120,116,2016-12-16,2026-06-25,0,NY,Anita Patel
+CUST-00011,Michael Singh,Business Banking,High Risk Business,620,934761.23,12.96,120,118,2016-10-22,2026-06-24,0,OR,Sarah Mitchell
+CUST-00012,Priya Roberts,Indirect Auto,Tier 4 - Sub Prime,628,27434.83,10.77,48,37,2023-06-05,2026-07-02,1,CA,Linda Cho
+CUST-00013,Robert Martinez,Direct Auto,Tier 2 - Good,707,19367.14,5.53,48,39,2023-05-03,2026-06-25,0,IL,James Okafor
+CUST-00014,Lisa Adams,Indirect Auto,Tier 3 - Near Prime,685,36660.43,8.29,72,30,2024-01-06,2026-06-25,0,MN,Anita Patel
+CUST-00015,Thomas Smith,Business Banking,Standard Business,712,930397.98,11.2,60,20,2024-11-25,2026-06-30,0,FL,Linda Cho
+CUST-00016,William Perez,Indirect Auto,Tier 5 - Deep Sub,584,59325.2,14.6,60,7,2025-12-12,2026-06-27,0,GA,James Okafor
+CUST-00017,Linda Miller,Business Banking,High Risk Business,628,233935.3,13.23,120,61,2021-07-01,2026-07-04,1,TX,James Okafor
+CUST-00018,Sarah Jones,Direct Auto,Tier 4 - Poor,605,19919.38,10.9,48,37,2023-06-21,2026-07-13,0,MA,Sarah Mitchell
+CUST-00019,Omar Perez,Indirect Auto,Tier 5 - Deep Sub,575,44128.69,14.3,36,8,2025-10-24,2026-07-11,0,OH,James Okafor
+CUST-00020,Omar Wilson,Indirect Auto,Tier 4 - Sub Prime,634,27738.39,10.8,72,36,2023-07-09,2026-07-04,0,OH,Anita Patel
+CUST-00021,Luca Anderson,Indirect Auto,Tier 5 - Deep Sub,579,39750.82,14.95,36,23,2024-08-09,2026-07-03,0,TX,Sarah Mitchell
+CUST-00022,David Garcia,Indirect Auto,Tier 4 - Sub Prime,645,9111.28,11.19,36,18,2024-12-25,2026-06-20,0,AZ,Sarah Mitchell
+CUST-00023,Ivan Sharma,Direct Auto,Tier 3 - Fair,683,17255.55,8.54,60,18,2025-01-20,2026-06-27,0,IA,Linda Cho
+CUST-00024,Aisha Jones,Indirect Auto,Tier 1 - Super Prime,784,42269.56,5.59,36,7,2025-12-04,2026-07-10,0,CT,Marcus Webb
+CUST-00025,Lisa Miller,Direct Auto,Tier 3 - Fair,695,14464.81,8.0,60,42,2023-01-10,2026-06-28,0,CT,Marcus Webb
+CUST-00026,Charles Roberts,Direct Auto,Tier 4 - Poor,609,58382.76,11.03,48,20,2024-11-19,2026-06-26,0,NC,Linda Cho
+CUST-00027,Richard Carter,Indirect Auto,Tier 1 - Super Prime,766,54760.89,5.74,36,3,2026-04-15,2026-06-28,2,MO,James Okafor
+CUST-00028,Carlos Martinez,Indirect Auto,Tier 4 - Sub Prime,607,9514.63,11.46,48,37,2023-06-23,2026-06-30,0,TX,Anita Patel
+CUST-00029,Ana Wilson,Direct Auto,Tier 4 - Poor,570,58935.48,11.05,48,46,2022-10-04,2026-07-07,0,IA,Marcus Webb
+CUST-00030,Sarah Kim,Indirect Auto,Tier 4 - Sub Prime,640,57884.97,10.94,36,14,2025-05-14,2026-06-23,1,PA,Linda Cho
+CUST-00031,Thomas Moore,Business Banking,High Risk Business,589,1724256.84,12.89,60,18,2025-01-10,2026-07-07,0,CA,Marcus Webb
+CUST-00032,Raj Johnson,Business Banking,Standard Business,664,593275.97,11.04,60,55,2021-12-21,2026-07-02,0,NY,Anita Patel
+CUST-00033,Sofia Davis,Indirect Auto,Tier 3 - Near Prime,685,7295.43,8.44,72,47,2022-08-28,2026-07-05,0,WA,Sarah Mitchell
+CUST-00034,Joseph Scott,Indirect Auto,Tier 3 - Near Prime,680,7663.19,8.6,72,3,2026-03-25,2026-07-01,0,AZ,Linda Cho
+CUST-00035,Christopher Martinez,Direct Auto,Tier 2 - Good,710,44803.25,5.86,36,22,2024-09-05,2026-07-05,0,OH,James Okafor
+CUST-00036,Lisa Chen,Business Banking,Prime Business,753,1508862.39,9.57,60,45,2022-10-25,2026-07-01,0,OH,James Okafor
+CUST-00037,Richard Garcia,Direct Auto,Tier 1 - Excellent,788,31507.16,5.14,48,35,2023-08-05,2026-06-18,0,MI,Sarah Mitchell
+CUST-00038,David Patel,Direct Auto,Tier 4 - Poor,597,54105.41,11.01,48,46,2022-09-12,2026-07-12,0,TN,Sarah Mitchell
+CUST-00039,James Miller,Indirect Auto,Tier 1 - Super Prime,783,29866.46,5.7,48,47,2022-08-26,2026-07-11,0,LA,James Okafor
+CUST-00040,William Mitchell,Indirect Auto,Tier 4 - Sub Prime,640,53246.59,11.07,72,9,2025-09-22,2026-06-21,0,MN,Sarah Mitchell
+CUST-00041,Charles Patel,Direct Auto,Tier 1 - Excellent,776,41759.14,4.82,72,60,2021-07-21,2026-06-21,0,OR,Anita Patel
+CUST-00042,Patricia Martinez,Business Banking,Prime Business,740,516529.43,9.46,84,15,2025-04-17,2026-07-10,0,IL,Marcus Webb
+CUST-00043,Linda Hernandez,Business Banking,Prime Business,757,347970.27,9.69,60,10,2025-09-11,2026-07-01,0,OR,James Okafor
+CUST-00044,James Lopez,Business Banking,Prime Business,777,1188954.86,9.36,120,8,2025-10-27,2026-06-30,0,MI,James Okafor
+CUST-00045,Carlos Roberts,Business Banking,Standard Business,717,1507655.55,10.8,120,108,2017-08-27,2026-07-03,0,CA,James Okafor
+CUST-00046,Maria Garcia,Direct Auto,Tier 1 - Excellent,757,48450.88,4.75,72,19,2024-12-08,2026-07-18,1,CO,James Okafor
+CUST-00047,Chen Kim,Indirect Auto,Tier 1 - Super Prime,786,15903.74,5.74,60,27,2024-04-15,2026-07-08,0,LA,James Okafor
+CUST-00048,David Johnson,Direct Auto,Tier 4 - Poor,591,33218.41,11.07,36,25,2024-06-26,2026-06-24,2,GA,Marcus Webb
+CUST-00049,Mohammed Anderson,Indirect Auto,Tier 4 - Sub Prime,628,19312.7,11.07,72,17,2025-02-17,2026-07-04,0,WI,Sarah Mitchell
+CUST-00050,Chen Adams,Indirect Auto,Tier 4 - Sub Prime,633,62883.25,10.79,36,4,2026-03-02,2026-06-27,1,SC,Marcus Webb
+CUST-00051,David Lopez,Indirect Auto,Tier 3 - Near Prime,674,11114.08,8.48,60,57,2021-10-17,2026-07-15,0,MO,James Okafor
+CUST-00052,Mohammed Mitchell,Direct Auto,Tier 4 - Poor,585,35357.65,10.6,60,3,2026-03-24,2026-07-03,0,SC,Marcus Webb
+CUST-00053,Ivan Nelson,Business Banking,High Risk Business,625,1480900.84,13.04,120,40,2023-03-07,2026-07-01,0,OR,Sarah Mitchell
+CUST-00054,Chen Ali,Direct Auto,Tier 2 - Good,715,56102.79,5.58,36,20,2024-11-18,2026-06-24,0,CA,James Okafor
+CUST-00055,Karen Smith,Direct Auto,Tier 4 - Poor,643,34253.0,11.05,60,54,2022-02-01,2026-06-20,0,IN,Marcus Webb
+CUST-00056,Maria Garcia,Indirect Auto,Tier 3 - Near Prime,673,48204.48,8.47,72,33,2023-10-12,2026-06-26,0,MI,Marcus Webb
+CUST-00057,Raj Lopez,Business Banking,Prime Business,757,524445.07,9.72,120,80,2019-12-05,2026-07-02,0,SC,James Okafor
+CUST-00058,Susan Thomas,Direct Auto,Tier 2 - Good,706,20084.22,6.0,36,15,2025-04-01,2026-07-01,2,OH,James Okafor
+CUST-00059,William Kim,Direct Auto,Tier 1 - Excellent,818,40807.44,5.27,36,15,2025-04-13,2026-07-13,0,TX,Linda Cho
+CUST-00060,Fatima Ali,Direct Auto,Tier 4 - Poor,614,43272.18,10.59,72,16,2025-03-07,2026-07-09,0,PA,Linda Cho
+CUST-00061,Jennifer Wilson,Direct Auto,Tier 1 - Excellent,794,11845.23,5.12,36,28,2024-03-12,2026-06-28,0,KY,Sarah Mitchell
+CUST-00062,Luca Green,Direct Auto,Tier 4 - Poor,593,64635.09,10.79,36,29,2024-02-04,2026-06-29,0,MA,James Okafor
+CUST-00063,Patricia Anderson,Direct Auto,Tier 1 - Excellent,769,23322.81,4.78,36,9,2025-10-15,2026-06-28,0,GA,Marcus Webb
+CUST-00064,Ivan Jones,Indirect Auto,Tier 4 - Sub Prime,630,5160.54,11.27,72,63,2021-05-08,2026-07-09,0,MN,Marcus Webb
+CUST-00065,Linda Anderson,Direct Auto,Tier 3 - Fair,651,30508.34,8.63,48,44,2022-11-28,2026-06-22,0,KY,Anita Patel
+CUST-00066,Fatima Garcia,Direct Auto,Tier 1 - Excellent,774,12461.22,5.19,60,47,2022-08-30,2026-07-02,0,WI,Linda Cho
+CUST-00067,Maria Kim,Business Banking,Prime Business,768,678527.09,9.93,84,9,2025-09-21,2026-06-27,0,MD,Linda Cho
+CUST-00068,Omar Garcia,Indirect Auto,Tier 1 - Super Prime,790,36137.83,5.85,72,38,2023-05-17,2026-07-05,0,TN,Anita Patel
+CUST-00069,Wei Williams,Business Banking,Standard Business,665,676063.6,11.0,60,16,2025-03-03,2026-07-03,0,MA,Linda Cho
+CUST-00070,Ivan Baker,Direct Auto,Tier 3 - Fair,679,24396.43,8.12,72,68,2020-12-16,2026-06-27,1,TX,Marcus Webb
+CUST-00071,Omar Davis,Direct Auto,Tier 1 - Excellent,805,42524.52,5.29,36,16,2025-03-21,2026-06-19,0,CA,Sarah Mitchell
+CUST-00072,Barbara Wilson,Indirect Auto,Tier 4 - Sub Prime,631,23645.01,11.42,36,29,2024-02-03,2026-06-19,0,TN,Anita Patel
+CUST-00073,Sofia Martinez,Direct Auto,Tier 1 - Excellent,762,55083.44,5.15,72,34,2023-09-28,2026-07-06,0,OK,Linda Cho
+CUST-00074,Omar Wilson,Direct Auto,Tier 1 - Excellent,762,25392.51,5.49,60,55,2021-12-18,2026-07-09,0,MA,Sarah Mitchell
+CUST-00075,Sarah Green,Business Banking,Standard Business,668,698257.91,10.91,120,54,2022-01-30,2026-06-21,0,GA,James Okafor
+CUST-00076,Jennifer Roberts,Indirect Auto,Tier 2 - Prime,712,49682.31,6.0,72,52,2022-03-16,2026-06-22,0,TX,Marcus Webb
+CUST-00077,Ana Wilson,Direct Auto,Tier 4 - Poor,601,57451.42,10.85,72,15,2025-04-10,2026-07-18,0,FL,James Okafor
+CUST-00078,Chen Sharma,Direct Auto,Tier 2 - Good,723,42395.56,5.6,72,13,2025-05-27,2026-06-27,1,CO,James Okafor
+CUST-00079,Michael Carter,Indirect Auto,Tier 5 - Deep Sub,585,19086.21,14.43,60,17,2025-02-10,2026-07-15,0,PA,Anita Patel
+CUST-00080,Ana Taylor,Indirect Auto,Tier 5 - Deep Sub,573,24462.48,14.72,36,21,2024-10-13,2026-07-14,0,PA,Marcus Webb
+CUST-00081,Charles Mitchell,Indirect Auto,Tier 2 - Prime,745,42182.62,6.06,48,34,2023-09-28,2026-07-11,0,NC,Linda Cho
+CUST-00082,Carlos Nguyen,Business Banking,Standard Business,653,1371341.23,10.92,60,10,2025-09-10,2026-06-30,0,MA,Anita Patel
+CUST-00083,Christopher Johnson,Indirect Auto,Tier 2 - Prime,746,56200.13,6.45,36,18,2025-01-13,2026-06-30,0,OR,James Okafor
+CUST-00084,Thomas Lopez,Direct Auto,Tier 4 - Poor,554,38955.74,10.62,36,34,2023-09-04,2026-07-09,0,GA,Marcus Webb
+CUST-00085,William Garcia,Direct Auto,Tier 4 - Poor,620,42694.89,10.65,36,22,2024-09-25,2026-06-30,0,IA,Anita Patel
+CUST-00086,Karen Anderson,Direct Auto,Tier 1 - Excellent,762,15538.4,4.83,48,37,2023-06-23,2026-07-02,0,NC,James Okafor
+CUST-00087,Wei Scott,Direct Auto,Tier 2 - Good,723,53253.95,6.13,72,12,2025-06-23,2026-07-11,1,FL,James Okafor
+CUST-00088,Mohammed Miller,Indirect Auto,Tier 3 - Near Prime,685,37194.34,8.49,72,50,2022-05-19,2026-07-10,0,MN,Marcus Webb
+CUST-00089,Ivan Singh,Business Banking,High Risk Business,586,1258116.39,12.81,120,47,2022-08-31,2026-06-28,0,CO,James Okafor
+CUST-00090,William Green,Indirect Auto,Tier 4 - Sub Prime,621,7720.81,10.74,36,22,2024-09-23,2026-07-15,0,MA,Anita Patel
+CUST-00091,Karen Williams,Business Banking,Prime Business,730,1497424.58,9.51,60,32,2023-11-05,2026-07-03,0,SC,Anita Patel
+CUST-00092,Aisha Brown,Indirect Auto,Tier 1 - Super Prime,777,31681.75,5.92,48,26,2024-05-08,2026-07-07,0,WA,Anita Patel
+CUST-00093,Maria Brown,Indirect Auto,Tier 4 - Sub Prime,612,61940.65,10.99,72,14,2025-05-04,2026-06-28,0,KY,Anita Patel
+CUST-00094,Thomas Ali,Indirect Auto,Tier 4 - Sub Prime,614,52218.69,10.87,48,7,2025-12-03,2026-07-12,0,LA,Marcus Webb
+CUST-00095,Maria Martinez,Indirect Auto,Tier 3 - Near Prime,691,56504.37,8.58,48,11,2025-07-28,2026-07-13,0,CA,Anita Patel
+CUST-00096,Robert Perez,Indirect Auto,Tier 2 - Prime,715,5946.87,6.64,60,6,2026-01-06,2026-07-02,0,MA,Anita Patel
+CUST-00097,Yuki Adams,Indirect Auto,Tier 1 - Super Prime,781,35230.32,5.65,36,22,2024-08-27,2026-07-18,0,AZ,Linda Cho
+CUST-00098,Priya Green,Business Banking,Prime Business,762,1823916.62,9.76,60,11,2025-08-18,2026-07-16,0,WI,Sarah Mitchell
+CUST-00099,Jessica Nelson,Direct Auto,Tier 1 - Excellent,782,35333.06,4.9,72,15,2025-04-21,2026-06-21,0,MA,Marcus Webb
+CUST-00100,Charles Scott,Business Banking,Standard Business,666,1663467.49,10.7,84,59,2021-09-02,2026-07-05,0,IL,James Okafor
+CUST-00101,Linda Ali,Indirect Auto,Tier 5 - Deep Sub,596,54906.31,14.92,36,30,2024-01-07,2026-07-07,0,MN,Linda Cho
+CUST-00102,Sofia Hernandez,Business Banking,Standard Business,670,1753534.38,10.52,84,12,2025-07-04,2026-07-09,0,IL,James Okafor
+CUST-00103,Maria Kim,Indirect Auto,Tier 4 - Sub Prime,605,26006.84,10.92,60,10,2025-09-03,2026-07-11,0,CA,Marcus Webb
+CUST-00104,Robert Wilson,Direct Auto,Tier 2 - Good,708,60292.25,6.1,60,3,2026-04-15,2026-06-30,0,AL,Linda Cho
+CUST-00105,Patricia Brown,Indirect Auto,Tier 3 - Near Prime,660,27571.66,8.87,72,46,2022-09-28,2026-06-25,0,IL,Marcus Webb
+CUST-00106,Sofia Davis,Indirect Auto,Tier 5 - Deep Sub,591,21326.17,14.53,72,65,2021-03-03,2026-07-10,0,VA,James Okafor
+CUST-00107,Linda Smith,Indirect Auto,Tier 3 - Near Prime,695,45693.07,8.49,72,70,2020-10-16,2026-07-11,0,OH,Anita Patel
+CUST-00108,William Green,Indirect Auto,Tier 4 - Sub Prime,620,50849.65,11.4,60,23,2024-08-12,2026-06-25,0,MO,Marcus Webb
+CUST-00109,Carlos Adams,Direct Auto,Tier 4 - Poor,586,28824.27,11.23,36,30,2024-01-01,2026-07-16,1,SC,James Okafor
+CUST-00110,Mohammed Garcia,Direct Auto,Tier 4 - Poor,608,29301.94,10.64,60,13,2025-06-04,2026-07-04,0,AZ,Linda Cho
+CUST-00111,Richard Jones,Indirect Auto,Tier 1 - Super Prime,773,40332.28,5.34,36,28,2024-03-07,2026-07-08,0,IN,Linda Cho
+CUST-00112,Jennifer Jones,Indirect Auto,Tier 2 - Prime,728,26065.98,6.66,48,18,2025-01-16,2026-07-12,0,PA,James Okafor
+CUST-00113,Priya Sharma,Business Banking,Prime Business,773,1149284.19,9.49,120,63,2021-04-17,2026-06-30,0,IL,James Okafor
+CUST-00114,Lisa Mitchell,Indirect Auto,Tier 1 - Super Prime,790,31532.48,5.78,60,53,2022-03-10,2026-07-07,0,MA,Linda Cho
+CUST-00115,David Carter,Indirect Auto,Tier 2 - Prime,738,54901.8,6.28,36,8,2025-11-04,2026-07-06,0,IA,Sarah Mitchell
+CUST-00116,Patricia Taylor,Indirect Auto,Tier 2 - Prime,714,41300.35,6.4,48,6,2025-12-25,2026-06-20,0,TX,Marcus Webb
+CUST-00117,Raj Brown,Business Banking,Standard Business,692,1071933.68,10.98,120,26,2024-04-30,2026-07-09,0,KY,Anita Patel
+CUST-00118,Jennifer Ali,Indirect Auto,Tier 2 - Prime,718,10670.36,6.55,72,39,2023-04-08,2026-06-27,2,FL,Sarah Mitchell
+CUST-00119,Chen Ali,Indirect Auto,Tier 2 - Prime,729,23613.9,6.29,72,19,2024-11-25,2026-07-16,0,OR,Marcus Webb
+CUST-00120,Omar Thomas,Indirect Auto,Tier 1 - Super Prime,766,35509.31,5.76,36,26,2024-04-29,2026-07-12,0,GA,Marcus Webb
+CUST-00121,David Ali,Indirect Auto,Tier 5 - Deep Sub,589,22747.53,14.41,36,35,2023-08-07,2026-06-25,1,CT,Sarah Mitchell
+CUST-00122,Fatima Williams,Indirect Auto,Tier 2 - Prime,742,14255.17,6.16,48,47,2022-08-13,2026-06-20,0,AZ,Anita Patel
+CUST-00123,Yuki Thomas,Indirect Auto,Tier 1 - Super Prime,777,41635.73,5.59,72,32,2023-11-22,2026-06-18,0,VA,Sarah Mitchell
+CUST-00124,William Nguyen,Business Banking,Standard Business,698,1550405.18,10.85,84,70,2020-09-17,2026-07-13,0,TX,James Okafor
+CUST-00125,Sofia Wilson,Direct Auto,Tier 4 - Poor,602,47684.06,11.18,36,21,2024-10-21,2026-07-10,0,OR,James Okafor
+CUST-00126,Chen Garcia,Indirect Auto,Tier 3 - Near Prime,663,54002.2,8.68,60,4,2026-03-08,2026-07-02,0,VA,Marcus Webb
+CUST-00127,Yuki Martinez,Indirect Auto,Tier 2 - Prime,713,60849.55,6.63,60,53,2022-03-10,2026-07-09,1,LA,James Okafor
+CUST-00128,Luca Nelson,Business Banking,Prime Business,737,60239.84,9.81,60,7,2025-11-24,2026-07-14,0,NY,Anita Patel
+CUST-00129,Omar Johnson,Indirect Auto,Tier 2 - Prime,704,12310.9,6.26,48,29,2024-02-10,2026-07-04,0,CO,Sarah Mitchell
+CUST-00130,Patricia Scott,Indirect Auto,Tier 4 - Sub Prime,623,22476.32,11.31,36,25,2024-06-15,2026-07-13,0,FL,Sarah Mitchell
+CUST-00131,Robert Lopez,Indirect Auto,Tier 2 - Prime,749,57399.89,6.0,36,27,2024-04-21,2026-06-25,0,GA,Linda Cho
+CUST-00132,Yuki Taylor,Direct Auto,Tier 4 - Poor,618,7660.14,10.76,60,55,2021-12-15,2026-06-24,0,KY,Marcus Webb
+CUST-00133,Lisa Adams,Indirect Auto,Tier 1 - Super Prime,784,7219.03,5.4,48,5,2026-01-21,2026-07-17,0,OR,Sarah Mitchell
+CUST-00134,Raj Kim,Business Banking,High Risk Business,644,121410.5,13.29,120,30,2024-01-03,2026-06-24,0,NY,Anita Patel
+CUST-00135,Luca Kim,Business Banking,Standard Business,682,1499450.03,10.52,84,49,2022-06-24,2026-06-26,0,KY,Linda Cho
+CUST-00136,Christopher Singh,Business Banking,High Risk Business,600,889683.95,13.28,60,40,2023-04-02,2026-07-16,0,MA,Sarah Mitchell
+CUST-00137,Carlos Kim,Business Banking,High Risk Business,622,1395041.38,13.47,84,63,2021-04-18,2026-06-19,0,CO,Linda Cho
+CUST-00138,David Martinez,Indirect Auto,Tier 1 - Super Prime,757,26798.67,5.88,48,4,2026-03-01,2026-06-27,0,FL,Marcus Webb
+CUST-00139,Robert Martinez,Direct Auto,Tier 2 - Good,735,27971.26,5.73,36,12,2025-06-23,2026-07-07,0,IN,Anita Patel
+CUST-00140,Barbara Nguyen,Business Banking,Standard Business,660,1316643.44,11.23,60,13,2025-06-18,2026-07-03,0,LA,Anita Patel
+CUST-00141,Susan Carter,Business Banking,High Risk Business,634,1992911.97,13.35,84,68,2020-12-12,2026-06-21,0,FL,Anita Patel
+CUST-00142,Susan Scott,Direct Auto,Tier 4 - Poor,583,37999.83,10.6,60,22,2024-09-04,2026-06-26,1,IN,Marcus Webb
+CUST-00143,William Garcia,Indirect Auto,Tier 3 - Near Prime,652,52523.94,8.97,48,34,2023-09-15,2026-06-30,0,FL,Anita Patel
+CUST-00144,Priya Jones,Business Banking,Prime Business,763,1451795.84,9.42,120,58,2021-09-16,2026-06-30,0,MA,James Okafor
+CUST-00145,Barbara Wilson,Direct Auto,Tier 4 - Poor,615,57677.61,10.92,48,11,2025-07-24,2026-06-21,0,MI,Marcus Webb
+CUST-00146,Patricia Nguyen,Indirect Auto,Tier 2 - Prime,715,61084.27,6.03,48,25,2024-06-12,2026-06-20,0,OH,Sarah Mitchell
+CUST-00147,Richard Ali,Direct Auto,Tier 4 - Poor,614,42501.34,10.76,36,35,2023-08-15,2026-06-18,0,OR,Sarah Mitchell
+CUST-00148,Maria Roberts,Indirect Auto,Tier 5 - Deep Sub,564,9873.37,14.83,60,44,2022-11-18,2026-07-05,0,CT,Sarah Mitchell
+CUST-00149,Ana Perez,Direct Auto,Tier 2 - Good,704,33976.69,5.9,72,41,2023-02-12,2026-07-17,0,MA,Marcus Webb
+CUST-00150,Mohammed Miller,Direct Auto,Tier 4 - Poor,623,23754.95,10.5,60,49,2022-06-28,2026-07-06,0,NJ,Marcus Webb
+CUST-00151,Ana Patel,Business Banking,High Risk Business,611,571569.77,13.43,60,15,2025-04-15,2026-06-18,0,OK,Marcus Webb
+CUST-00152,Omar Johnson,Direct Auto,Tier 2 - Good,710,16390.05,5.49,48,34,2023-09-18,2026-07-03,1,FL,James Okafor
+CUST-00153,Yuki Chen,Business Banking,High Risk Business,641,469531.62,13.46,84,12,2025-07-08,2026-06-29,1,MO,Linda Cho
+CUST-00154,Linda Thomas,Indirect Auto,Tier 1 - Super Prime,770,13036.1,5.72,60,49,2022-06-27,2026-07-07,0,VA,Sarah Mitchell
+CUST-00155,William Miller,Direct Auto,Tier 4 - Poor,587,28180.93,10.62,72,38,2023-05-16,2026-06-27,0,WA,Anita Patel
+CUST-00156,William Ali,Direct Auto,Tier 2 - Good,737,50297.91,5.86,48,41,2023-02-18,2026-07-17,0,KY,James Okafor
+CUST-00157,Lisa Ali,Business Banking,High Risk Business,618,1232208.02,13.25,120,23,2024-08-08,2026-07-08,0,IN,Sarah Mitchell
+CUST-00158,Lisa Johnson,Business Banking,Prime Business,761,1147702.31,9.72,84,8,2025-10-30,2026-07-15,2,WI,James Okafor
+CUST-00159,Chen Wilson,Direct Auto,Tier 3 - Fair,666,48284.01,8.35,72,24,2024-07-05,2026-06-29,0,OR,Marcus Webb
+CUST-00160,Sofia Perez,Indirect Auto,Tier 4 - Sub Prime,606,16447.06,11.18,72,43,2022-12-23,2026-06-26,0,OK,Linda Cho
+CUST-00161,Ivan Ali,Indirect Auto,Tier 1 - Super Prime,815,17440.5,5.63,60,45,2022-10-25,2026-07-08,2,MO,Anita Patel
+CUST-00162,Lisa Chen,Direct Auto,Tier 1 - Excellent,797,16535.85,5.07,48,20,2024-11-18,2026-06-18,2,SC,Marcus Webb
+CUST-00163,Chen Adams,Business Banking,Standard Business,661,985616.68,10.71,120,107,2017-09-24,2026-07-15,0,OR,Anita Patel
+CUST-00164,Jessica Thomas,Indirect Auto,Tier 3 - Near Prime,698,7523.99,8.3,36,25,2024-06-08,2026-07-10,0,OR,Sarah Mitchell
+CUST-00165,Thomas Brown,Direct Auto,Tier 3 - Fair,689,13236.38,8.7,48,18,2024-12-27,2026-07-02,0,NY,James Okafor
+CUST-00166,Yuki Perez,Direct Auto,Tier 1 - Excellent,791,11032.69,4.77,48,3,2026-03-21,2026-07-13,0,CO,Marcus Webb
+CUST-00167,David Taylor,Direct Auto,Tier 2 - Good,714,22124.92,5.75,36,8,2025-11-13,2026-07-01,0,AZ,Marcus Webb
+CUST-00168,Michael Ali,Indirect Auto,Tier 1 - Super Prime,753,52277.64,5.33,48,21,2024-10-26,2026-07-09,0,MI,James Okafor
+CUST-00169,Ivan Nguyen,Business Banking,High Risk Business,614,1709566.49,13.36,84,40,2023-04-02,2026-07-08,0,SC,Marcus Webb
+CUST-00170,Carlos Sharma,Indirect Auto,Tier 2 - Prime,722,52446.06,6.28,48,14,2025-05-04,2026-06-20,0,FL,James Okafor
+CUST-00171,Fatima Kim,Indirect Auto,Tier 4 - Sub Prime,644,63901.11,10.79,72,44,2022-12-06,2026-07-10,0,NJ,Anita Patel
+CUST-00172,Sofia Singh,Indirect Auto,Tier 3 - Near Prime,683,44221.0,8.49,48,6,2026-01-05,2026-07-09,0,SC,Linda Cho
+CUST-00173,Mohammed Baker,Direct Auto,Tier 2 - Good,738,41877.53,5.88,48,11,2025-08-08,2026-06-25,2,SC,Sarah Mitchell
+CUST-00174,Patricia Carter,Business Banking,Prime Business,773,1098159.49,9.84,120,111,2017-05-29,2026-06-27,0,IN,Anita Patel
+CUST-00175,Fatima Davis,Indirect Auto,Tier 4 - Sub Prime,607,8705.48,11.09,48,39,2023-04-30,2026-07-08,1,MN,Marcus Webb
+CUST-00176,Linda Mitchell,Business Banking,High Risk Business,603,1802834.24,13.16,84,13,2025-06-07,2026-07-05,0,MN,Anita Patel
+CUST-00177,Robert Brown,Indirect Auto,Tier 1 - Super Prime,752,20267.43,5.56,36,16,2025-03-24,2026-07-05,0,IA,Linda Cho
+CUST-00178,Ana Scott,Business Banking,High Risk Business,588,609826.88,13.4,60,55,2021-12-21,2026-06-25,0,CT,James Okafor
+CUST-00179,Barbara Taylor,Business Banking,Standard Business,676,782508.79,10.59,120,90,2019-02-21,2026-06-28,1,MO,James Okafor
+CUST-00180,Chen Moore,Indirect Auto,Tier 3 - Near Prime,664,55089.3,8.64,36,22,2024-09-03,2026-07-01,0,GA,James Okafor
+CUST-00181,Maria Patel,Direct Auto,Tier 4 - Poor,629,21538.98,10.63,36,5,2026-02-05,2026-06-29,0,OH,Linda Cho
+CUST-00182,Jessica Brown,Indirect Auto,Tier 5 - Deep Sub,567,31786.46,14.43,36,18,2025-01-12,2026-07-04,0,IL,Sarah Mitchell
+CUST-00183,Lisa Wilson,Direct Auto,Tier 3 - Fair,669,53947.18,8.29,60,39,2023-04-14,2026-06-22,0,MN,Sarah Mitchell
+CUST-00184,Aisha Green,Indirect Auto,Tier 1 - Super Prime,761,23030.06,5.52,36,14,2025-05-11,2026-07-01,0,KY,Sarah Mitchell
+CUST-00185,Thomas Singh,Direct Auto,Tier 1 - Excellent,763,29495.55,5.35,60,27,2024-04-12,2026-07-03,0,OK,Marcus Webb
+CUST-00186,Raj Garcia,Business Banking,High Risk Business,594,1146652.6,13.1,84,77,2020-03-09,2026-07-11,0,IA,James Okafor
+CUST-00187,Robert Thomas,Direct Auto,Tier 4 - Poor,597,37138.13,11.04,48,6,2025-12-29,2026-06-29,0,KY,Sarah Mitchell
+CUST-00188,Barbara Perez,Indirect Auto,Tier 1 - Super Prime,795,17533.35,5.27,60,22,2024-09-26,2026-07-12,1,IA,Marcus Webb
+CUST-00189,Lisa Nguyen,Indirect Auto,Tier 1 - Super Prime,753,59907.59,5.78,60,52,2022-03-27,2026-07-01,0,VA,Sarah Mitchell
+CUST-00190,Priya Baker,Business Banking,Standard Business,699,242286.05,10.68,120,66,2021-02-04,2026-06-19,0,TX,Sarah Mitchell
+CUST-00191,Sarah Roberts,Indirect Auto,Tier 4 - Sub Prime,624,5973.19,11.38,72,40,2023-03-26,2026-07-11,0,MO,Anita Patel
+CUST-00192,Omar Taylor,Direct Auto,Tier 1 - Excellent,800,62990.5,5.36,72,61,2021-06-19,2026-07-07,0,IA,Sarah Mitchell
+CUST-00193,Thomas Jones,Indirect Auto,Tier 1 - Super Prime,818,7029.43,5.42,36,6,2026-01-06,2026-07-14,0,SC,Marcus Webb
+CUST-00194,Yuki Roberts,Indirect Auto,Tier 3 - Near Prime,661,35343.98,8.53,60,6,2025-12-29,2026-06-19,0,CA,Linda Cho
+CUST-00195,Carlos Taylor,Business Banking,High Risk Business,583,82615.99,13.1,120,41,2023-02-25,2026-07-18,0,NY,Linda Cho
+CUST-00196,Wei Mitchell,Indirect Auto,Tier 3 - Near Prime,673,16515.92,8.72,60,55,2021-12-16,2026-07-06,0,MD,Marcus Webb
+CUST-00197,Linda Smith,Indirect Auto,Tier 2 - Prime,703,46042.5,6.67,36,5,2026-02-06,2026-07-06,0,SC,Marcus Webb
+CUST-00198,David Moore,Indirect Auto,Tier 1 - Super Prime,805,55719.79,5.26,60,39,2023-05-02,2026-06-20,0,OH,Sarah Mitchell
+CUST-00199,David Taylor,Business Banking,High Risk Business,649,140795.84,12.81,60,49,2022-06-11,2026-07-01,0,IA,Anita Patel
+CUST-00200,Chen Ali,Indirect Auto,Tier 3 - Near Prime,656,40222.17,8.77,72,12,2025-07-05,2026-07-11,0,WA,Marcus Webb
+CUST-00201,Wei Sharma,Indirect Auto,Tier 1 - Super Prime,806,49727.39,5.92,60,6,2026-01-12,2026-06-22,0,CA,Anita Patel
+CUST-00202,Patricia Chen,Business Banking,Standard Business,705,494869.86,10.93,120,54,2022-01-19,2026-06-30,0,KY,Marcus Webb
+CUST-00203,James Singh,Indirect Auto,Tier 5 - Deep Sub,592,21078.32,14.44,72,22,2024-09-16,2026-07-07,0,MA,Anita Patel
+CUST-00204,Maria Garcia,Direct Auto,Tier 4 - Poor,602,12950.42,10.9,48,30,2024-01-13,2026-07-02,0,VA,Sarah Mitchell
+CUST-00205,Sarah Anderson,Indirect Auto,Tier 2 - Prime,716,56823.09,6.43,36,21,2024-10-02,2026-07-16,0,MN,James Okafor
+CUST-00206,Lisa Perez,Indirect Auto,Tier 4 - Sub Prime,621,21135.14,11.38,60,34,2023-09-27,2026-07-05,0,KY,Linda Cho
+CUST-00207,Wei Ali,Direct Auto,Tier 3 - Fair,678,61653.34,8.4,72,28,2024-03-26,2026-07-09,0,OR,Sarah Mitchell
+CUST-00208,William Singh,Business Banking,Prime Business,785,1731286.71,9.68,84,48,2022-07-13,2026-06-21,0,NJ,Sarah Mitchell
+CUST-00209,Sarah Sharma,Indirect Auto,Tier 1 - Super Prime,795,23851.0,5.77,72,43,2022-12-14,2026-06-28,0,WA,Anita Patel
+CUST-00210,Maria Mitchell,Business Banking,Standard Business,673,272081.26,10.81,120,31,2023-12-14,2026-07-13,0,SC,Marcus Webb
+CUST-00211,Omar Martinez,Business Banking,Prime Business,784,618095.86,9.39,120,14,2025-04-29,2026-06-23,0,CO,Anita Patel
+CUST-00212,Sofia Baker,Indirect Auto,Tier 3 - Near Prime,679,44519.78,8.93,72,51,2022-04-21,2026-07-03,0,MO,Linda Cho
+CUST-00213,Wei Ali,Direct Auto,Tier 4 - Poor,593,11562.17,10.74,48,45,2022-11-01,2026-06-28,0,KY,James Okafor
+CUST-00214,Thomas Carter,Indirect Auto,Tier 5 - Deep Sub,555,10916.39,14.43,48,35,2023-08-16,2026-06-30,0,VA,James Okafor
+CUST-00215,Ana Garcia,Business Banking,Prime Business,777,1375133.2,9.89,120,70,2020-10-17,2026-07-03,0,NY,Marcus Webb
+CUST-00216,Fatima Sharma,Direct Auto,Tier 2 - Good,709,25584.0,5.88,48,36,2023-07-19,2026-07-15,0,FL,Anita Patel
+CUST-00217,Sarah Taylor,Indirect Auto,Tier 4 - Sub Prime,608,6355.11,11.41,60,44,2022-11-11,2026-07-13,1,MO,Marcus Webb
+CUST-00218,Wei Johnson,Direct Auto,Tier 1 - Excellent,768,62507.76,5.02,48,28,2024-03-25,2026-06-28,0,AL,Sarah Mitchell
+CUST-00219,Robert Miller,Indirect Auto,Tier 1 - Super Prime,780,40532.19,5.46,72,3,2026-04-13,2026-07-10,0,KY,Sarah Mitchell
+CUST-00220,Priya Green,Indirect Auto,Tier 2 - Prime,737,24559.09,6.54,72,17,2025-01-27,2026-07-03,0,WI,James Okafor
+CUST-00221,Patricia Martinez,Indirect Auto,Tier 2 - Prime,728,26119.1,6.13,72,25,2024-06-06,2026-06-23,0,NJ,Linda Cho
+CUST-00222,Chen Nelson,Indirect Auto,Tier 2 - Prime,706,12016.93,6.63,60,47,2022-08-26,2026-07-05,0,PA,James Okafor
+CUST-00223,Aisha Smith,Indirect Auto,Tier 4 - Sub Prime,635,34378.52,11.25,48,14,2025-05-10,2026-06-29,0,TN,Marcus Webb
+CUST-00224,Omar Anderson,Indirect Auto,Tier 2 - Prime,746,62829.75,6.23,72,55,2021-12-28,2026-06-26,0,FL,Sarah Mitchell
+CUST-00225,Omar Davis,Indirect Auto,Tier 3 - Near Prime,662,22525.39,8.59,60,17,2025-02-18,2026-06-24,0,MD,Linda Cho
+CUST-00226,Sarah Singh,Direct Auto,Tier 2 - Good,737,37522.6,5.83,36,31,2023-12-18,2026-07-15,0,OK,Linda Cho
+CUST-00227,Jessica Lopez,Business Banking,High Risk Business,647,729725.1,12.85,60,34,2023-09-29,2026-06-24,0,OK,Sarah Mitchell
+CUST-00228,Karen Anderson,Business Banking,High Risk Business,622,1251494.84,13.34,60,58,2021-10-11,2026-06-30,0,NJ,Anita Patel
+CUST-00229,Karen Martinez,Direct Auto,Tier 3 - Fair,686,62143.84,8.02,36,11,2025-07-28,2026-07-05,1,SC,Marcus Webb
+CUST-00230,Ana Green,Indirect Auto,Tier 4 - Sub Prime,624,47683.69,11.2,48,46,2022-10-03,2026-06-30,0,MA,Linda Cho
+CUST-00231,Priya Smith,Indirect Auto,Tier 1 - Super Prime,756,35936.81,5.29,60,47,2022-08-27,2026-07-04,2,OK,Linda Cho
+CUST-00232,Jessica Roberts,Business Banking,Prime Business,742,1345080.45,9.4,84,14,2025-05-12,2026-07-12,2,NC,Anita Patel
+CUST-00233,Linda Williams,Direct Auto,Tier 2 - Good,722,37838.63,5.6,48,39,2023-04-10,2026-07-08,1,NY,James Okafor
+CUST-00234,William Singh,Indirect Auto,Tier 4 - Sub Prime,613,60765.97,11.15,48,31,2023-12-01,2026-07-05,0,PA,Anita Patel
+CUST-00235,Lisa Moore,Indirect Auto,Tier 2 - Prime,734,20023.36,6.06,60,45,2022-11-01,2026-07-17,0,AZ,Linda Cho
+CUST-00236,James Ali,Indirect Auto,Tier 5 - Deep Sub,550,17805.27,14.54,36,11,2025-08-06,2026-06-27,0,OR,Linda Cho
+CUST-00237,Priya Scott,Business Banking,Prime Business,757,307741.54,9.71,60,20,2024-11-02,2026-06-23,0,CT,Anita Patel
+CUST-00238,James Anderson,Indirect Auto,Tier 2 - Prime,745,51407.63,6.0,48,44,2022-12-02,2026-07-16,0,MA,Anita Patel
+CUST-00239,Chen Lopez,Indirect Auto,Tier 4 - Sub Prime,627,60193.65,11.42,72,30,2024-01-27,2026-07-14,0,AZ,Anita Patel
+CUST-00240,Maria Singh,Indirect Auto,Tier 3 - Near Prime,676,21618.06,8.57,36,18,2025-01-05,2026-06-25,0,OH,Sarah Mitchell
+CUST-00241,Robert Smith,Indirect Auto,Tier 1 - Super Prime,750,22732.52,5.62,36,18,2025-01-21,2026-07-11,0,VA,Anita Patel
+CUST-00242,Robert Johnson,Indirect Auto,Tier 2 - Prime,748,56648.84,6.33,72,49,2022-07-04,2026-06-24,0,MD,Linda Cho
+CUST-00243,Ana Nelson,Indirect Auto,Tier 3 - Near Prime,684,17944.58,8.61,36,28,2024-03-10,2026-06-26,0,SC,James Okafor
+CUST-00244,Priya Adams,Indirect Auto,Tier 4 - Sub Prime,628,21648.06,11.11,60,8,2025-11-14,2026-06-23,0,MD,Linda Cho
+CUST-00245,Linda Singh,Direct Auto,Tier 1 - Excellent,773,48797.5,5.31,48,6,2025-12-21,2026-07-05,0,MN,Marcus Webb
+CUST-00246,Charles Anderson,Indirect Auto,Tier 5 - Deep Sub,556,47474.04,14.62,36,13,2025-06-12,2026-07-02,0,VA,Marcus Webb
+CUST-00247,Robert Roberts,Direct Auto,Tier 4 - Poor,610,51285.82,10.63,36,24,2024-07-20,2026-07-02,0,MA,Sarah Mitchell
+CUST-00248,Barbara Moore,Direct Auto,Tier 4 - Poor,578,34976.6,11.12,48,26,2024-05-05,2026-07-15,1,AL,Sarah Mitchell
+CUST-00249,Susan Williams,Indirect Auto,Tier 5 - Deep Sub,572,56521.34,14.96,36,18,2025-01-13,2026-07-06,1,MO,James Okafor
+CUST-00250,Linda Taylor,Indirect Auto,Tier 2 - Prime,714,19895.79,6.12,60,20,2024-11-07,2026-07-07,0,GA,Sarah Mitchell
+CUST-00251,Ivan Smith,Indirect Auto,Tier 1 - Super Prime,755,9135.59,5.41,72,39,2023-04-26,2026-07-08,0,VA,Marcus Webb
+CUST-00252,Sarah Wilson,Direct Auto,Tier 2 - Good,705,49374.56,5.96,48,32,2023-11-16,2026-06-24,0,CA,James Okafor
+CUST-00253,Lisa Miller,Indirect Auto,Tier 3 - Near Prime,669,37492.71,8.99,36,24,2024-07-07,2026-07-06,0,OH,Sarah Mitchell
+CUST-00254,Luca Baker,Indirect Auto,Tier 1 - Super Prime,764,34521.73,5.46,36,12,2025-07-21,2026-07-17,1,SC,Anita Patel
+CUST-00255,Linda Nelson,Business Banking,Prime Business,771,215559.71,9.9,60,38,2023-05-09,2026-07-06,0,MN,Marcus Webb
+CUST-00256,Fatima Kim,Indirect Auto,Tier 3 - Near Prime,699,20659.46,8.7,60,54,2022-01-14,2026-06-25,0,GA,Linda Cho
+CUST-00257,Barbara Lopez,Indirect Auto,Tier 4 - Sub Prime,619,51796.22,11.41,36,12,2025-07-09,2026-07-04,0,LA,Marcus Webb
+CUST-00258,David Hernandez,Business Banking,Standard Business,658,953525.86,11.13,60,11,2025-08-01,2026-07-09,0,OR,Anita Patel
+CUST-00259,Susan Johnson,Indirect Auto,Tier 5 - Deep Sub,596,47669.44,14.6,60,28,2024-03-09,2026-07-09,0,WA,James Okafor
+CUST-00260,William Thomas,Indirect Auto,Tier 5 - Deep Sub,598,32722.59,14.98,48,10,2025-08-26,2026-06-24,2,OR,James Okafor
+CUST-00261,Fatima Martinez,Direct Auto,Tier 4 - Poor,593,39939.43,11.18,60,55,2022-01-08,2026-07-12,1,FL,Anita Patel
+CUST-00262,Omar Johnson,Indirect Auto,Tier 5 - Deep Sub,571,61536.84,14.3,36,13,2025-06-10,2026-06-22,0,WA,James Okafor
+CUST-00263,Sarah Chen,Indirect Auto,Tier 2 - Prime,731,17882.97,6.53,48,20,2024-10-28,2026-07-14,0,TN,James Okafor
+CUST-00264,Sarah Johnson,Business Banking,High Risk Business,595,221057.02,13.19,84,23,2024-08-07,2026-06-20,0,WA,Anita Patel
+CUST-00265,Priya Moore,Business Banking,Standard Business,719,1573798.46,10.87,84,78,2020-02-08,2026-07-10,0,CA,Anita Patel
+CUST-00266,Linda Moore,Indirect Auto,Tier 1 - Super Prime,791,36765.94,5.91,48,13,2025-06-02,2026-07-11,0,MD,James Okafor
+CUST-00267,Aisha Wilson,Direct Auto,Tier 4 - Poor,638,15566.02,10.69,60,54,2022-01-29,2026-06-19,0,MD,Marcus Webb
+CUST-00268,Luca Perez,Business Banking,Standard Business,718,652653.49,11.18,84,10,2025-09-14,2026-06-29,0,CA,Anita Patel
+CUST-00269,Jennifer Davis,Indirect Auto,Tier 4 - Sub Prime,616,25445.54,11.45,48,23,2024-08-23,2026-06-30,0,OK,Sarah Mitchell
+CUST-00270,Carlos Roberts,Direct Auto,Tier 4 - Poor,587,27415.45,10.99,72,15,2025-04-14,2026-07-14,2,CO,Anita Patel
+CUST-00271,James Adams,Indirect Auto,Tier 2 - Prime,732,18394.23,6.51,48,27,2024-04-07,2026-07-09,0,OK,Sarah Mitchell
+CUST-00272,Robert Patel,Indirect Auto,Tier 4 - Sub Prime,643,41143.32,11.07,48,43,2022-12-07,2026-07-03,0,VA,Anita Patel
+CUST-00273,Aisha Nguyen,Indirect Auto,Tier 5 - Deep Sub,595,54299.71,14.98,60,31,2023-12-25,2026-07-11,0,KY,Linda Cho
+CUST-00274,Chen Miller,Indirect Auto,Tier 5 - Deep Sub,574,28156.23,14.33,72,24,2024-07-13,2026-06-20,0,OR,James Okafor
+CUST-00275,Raj Anderson,Indirect Auto,Tier 4 - Sub Prime,633,32077.25,11.47,36,21,2024-10-18,2026-06-18,0,CT,James Okafor
+CUST-00276,Maria Nelson,Indirect Auto,Tier 5 - Deep Sub,588,37822.78,14.54,36,24,2024-07-09,2026-06-20,0,CO,Marcus Webb
+CUST-00277,Charles Chen,Business Banking,High Risk Business,620,154433.7,12.77,84,32,2023-11-18,2026-06-26,0,MI,Marcus Webb
+CUST-00278,Yuki Thomas,Indirect Auto,Tier 5 - Deep Sub,575,28574.13,14.95,72,22,2024-09-26,2026-07-05,0,NY,Linda Cho
+CUST-00279,Omar Nguyen,Indirect Auto,Tier 4 - Sub Prime,637,43291.44,10.86,36,33,2023-10-23,2026-06-23,0,FL,Sarah Mitchell
+CUST-00280,Charles Moore,Business Banking,High Risk Business,627,773490.02,13.36,84,53,2022-03-10,2026-07-10,0,OR,Anita Patel
+CUST-00281,Thomas Brown,Indirect Auto,Tier 4 - Sub Prime,627,50134.11,10.99,36,8,2025-10-26,2026-07-01,0,OR,James Okafor
+CUST-00282,David Wilson,Business Banking,Standard Business,717,1389782.47,10.59,84,79,2020-01-06,2026-07-09,0,NY,James Okafor
+CUST-00283,Jennifer Nguyen,Indirect Auto,Tier 4 - Sub Prime,635,63329.89,11.46,48,11,2025-08-20,2026-06-27,0,NJ,Linda Cho
+CUST-00284,Luca Baker,Indirect Auto,Tier 2 - Prime,748,38381.85,6.53,60,57,2021-10-28,2026-06-19,1,NY,James Okafor
+CUST-00285,Aisha Baker,Indirect Auto,Tier 4 - Sub Prime,625,38995.64,11.07,36,9,2025-10-18,2026-06-23,0,NC,James Okafor
+CUST-00286,Wei Williams,Business Banking,Prime Business,726,1237476.2,9.79,60,17,2025-02-19,2026-06-29,0,WA,Anita Patel
+CUST-00287,Karen Roberts,Indirect Auto,Tier 5 - Deep Sub,575,49744.99,14.97,60,26,2024-05-03,2026-06-23,0,OK,Linda Cho
+CUST-00288,Joseph Carter,Indirect Auto,Tier 4 - Sub Prime,618,23028.83,11.29,72,44,2022-11-23,2026-06-29,0,OH,James Okafor
+CUST-00289,Sofia Adams,Business Banking,Prime Business,774,1057177.77,9.61,84,13,2025-06-18,2026-07-16,0,IL,Sarah Mitchell
+CUST-00290,Joseph Kim,Indirect Auto,Tier 4 - Sub Prime,638,16565.81,11.3,48,6,2026-01-05,2026-07-17,1,VA,James Okafor
+CUST-00291,Yuki Lopez,Business Banking,Prime Business,742,1849993.46,9.82,120,9,2025-10-06,2026-06-29,0,VA,Marcus Webb
+CUST-00292,Thomas Moore,Direct Auto,Tier 4 - Poor,596,22104.16,11.12,72,9,2025-10-03,2026-06-24,2,MN,Marcus Webb
+CUST-00293,James Moore,Direct Auto,Tier 1 - Excellent,759,35796.87,4.81,36,33,2023-10-12,2026-07-13,0,NC,Sarah Mitchell
+CUST-00294,Luca Adams,Direct Auto,Tier 3 - Fair,690,30428.41,8.4,72,47,2022-09-01,2026-07-04,0,MD,Linda Cho
+CUST-00295,Michael Perez,Indirect Auto,Tier 1 - Super Prime,811,64965.76,5.5,60,38,2023-05-16,2026-07-09,0,FL,Anita Patel
+CUST-00296,Jennifer Patel,Direct Auto,Tier 2 - Good,716,56689.5,5.71,60,44,2022-11-08,2026-06-28,0,CT,Linda Cho
+CUST-00297,Ana Adams,Business Banking,Prime Business,749,673192.19,9.98,60,52,2022-03-26,2026-07-09,0,WA,Linda Cho
+CUST-00298,Aisha Singh,Indirect Auto,Tier 2 - Prime,725,48592.99,6.34,48,46,2022-09-12,2026-07-03,1,OK,Marcus Webb
+CUST-00299,Raj Garcia,Indirect Auto,Tier 2 - Prime,700,10856.18,6.2,48,19,2024-12-08,2026-06-24,1,GA,Anita Patel
+CUST-00300,Yuki Brown,Indirect Auto,Tier 2 - Prime,707,30228.35,6.54,60,26,2024-05-20,2026-07-04,1,OK,Sarah Mitchell
+CUST-00301,Jennifer Martinez,Indirect Auto,Tier 1 - Super Prime,791,58365.56,5.59,36,27,2024-04-16,2026-07-17,1,OH,Anita Patel
+CUST-00302,Omar Ali,Business Banking,Prime Business,725,1791047.99,9.76,84,24,2024-07-06,2026-07-13,0,CO,Marcus Webb
+CUST-00303,Omar Garcia,Direct Auto,Tier 4 - Poor,579,5282.81,10.67,60,16,2025-03-20,2026-06-30,0,IL,Sarah Mitchell
+CUST-00304,Mohammed Smith,Business Banking,Prime Business,742,887348.96,9.71,84,67,2021-01-14,2026-07-01,0,CT,Anita Patel
+CUST-00305,Chen Singh,Indirect Auto,Tier 5 - Deep Sub,559,45604.89,14.47,48,17,2025-02-12,2026-07-09,0,PA,Linda Cho
+CUST-00306,William Ali,Indirect Auto,Tier 2 - Prime,702,61907.8,6.29,72,69,2020-11-06,2026-07-05,1,CT,James Okafor
+CUST-00307,Maria Anderson,Direct Auto,Tier 4 - Poor,646,14893.01,11.07,72,5,2026-01-26,2026-07-14,0,NY,Anita Patel
+CUST-00308,Michael Johnson,Indirect Auto,Tier 2 - Prime,742,57592.65,6.34,60,52,2022-04-09,2026-06-29,2,TX,Linda Cho
+CUST-00309,James Singh,Business Banking,Standard Business,693,791494.84,10.89,120,38,2023-05-31,2026-07-12,0,AZ,Linda Cho
+CUST-00310,Michael Roberts,Direct Auto,Tier 4 - Poor,620,30129.55,10.7,36,35,2023-08-30,2026-07-09,0,OH,Sarah Mitchell
+CUST-00311,Omar Hernandez,Indirect Auto,Tier 3 - Near Prime,684,54889.93,8.46,48,25,2024-06-19,2026-07-13,0,SC,James Okafor
+CUST-00312,Patricia Jones,Direct Auto,Tier 3 - Fair,670,5164.28,8.11,36,10,2025-08-31,2026-07-03,0,AL,Linda Cho
+CUST-00313,David Chen,Direct Auto,Tier 3 - Fair,668,32405.07,8.39,60,19,2024-12-22,2026-06-22,0,VA,Anita Patel
+CUST-00314,Aisha Carter,Business Banking,Prime Business,769,276007.05,9.36,60,6,2025-12-29,2026-06-28,0,WI,Anita Patel
+CUST-00315,Chen Perez,Indirect Auto,Tier 2 - Prime,740,53897.86,6.44,48,10,2025-08-22,2026-07-04,0,KY,James Okafor
+CUST-00316,Fatima Taylor,Indirect Auto,Tier 4 - Sub Prime,607,12950.69,11.41,36,13,2025-05-25,2026-06-30,0,WI,James Okafor
+CUST-00317,David Jones,Direct Auto,Tier 4 - Poor,564,56754.55,10.55,48,33,2023-10-29,2026-06-20,0,NC,Anita Patel
+CUST-00318,Michael Nelson,Indirect Auto,Tier 1 - Super Prime,818,51051.72,5.34,48,45,2022-10-21,2026-07-02,0,MN,Marcus Webb
+CUST-00319,Linda Smith,Business Banking,Standard Business,668,1344235.76,11.14,120,55,2021-12-15,2026-07-01,1,CO,Marcus Webb
+CUST-00320,Karen Brown,Business Banking,Prime Business,798,1016878.11,9.44,60,10,2025-09-11,2026-07-11,0,IN,Marcus Webb
+CUST-00321,Omar Carter,Business Banking,Standard Business,683,1643351.45,10.92,60,35,2023-08-15,2026-07-04,0,NJ,Linda Cho
+CUST-00322,Patricia Singh,Business Banking,Prime Business,770,1324077.36,9.69,60,31,2023-12-14,2026-07-01,0,CT,Sarah Mitchell
+CUST-00323,Yuki Scott,Indirect Auto,Tier 1 - Super Prime,783,62021.31,5.95,60,55,2022-01-03,2026-06-21,0,SC,James Okafor
+CUST-00324,Christopher Scott,Indirect Auto,Tier 5 - Deep Sub,599,50559.2,14.73,48,3,2026-03-24,2026-06-28,2,SC,Linda Cho
+CUST-00325,Wei Hernandez,Indirect Auto,Tier 4 - Sub Prime,634,34545.33,11.3,72,16,2025-03-19,2026-07-12,0,MA,Marcus Webb
+CUST-00326,Sofia Martinez,Direct Auto,Tier 4 - Poor,605,50428.96,10.66,36,10,2025-09-07,2026-07-04,0,TN,Linda Cho
+CUST-00327,Susan Martinez,Indirect Auto,Tier 1 - Super Prime,771,55328.97,5.4,72,68,2020-11-17,2026-07-13,0,NY,James Okafor
+CUST-00328,Fatima Martinez,Direct Auto,Tier 1 - Excellent,808,57883.43,5.28,72,34,2023-09-02,2026-07-08,2,IL,James Okafor
+CUST-00329,William Taylor,Direct Auto,Tier 2 - Good,710,47712.46,6.08,48,15,2025-04-02,2026-07-09,0,IN,Sarah Mitchell
+CUST-00330,Carlos Smith,Direct Auto,Tier 4 - Poor,609,50646.5,10.73,72,56,2021-11-13,2026-06-22,0,IN,Linda Cho
+CUST-00331,Charles Wilson,Indirect Auto,Tier 2 - Prime,745,13719.6,6.54,36,15,2025-03-30,2026-07-13,2,OR,Linda Cho
+CUST-00332,Thomas Green,Direct Auto,Tier 3 - Fair,654,50215.64,8.13,36,25,2024-06-25,2026-06-29,1,GA,Sarah Mitchell
+CUST-00333,Linda Smith,Direct Auto,Tier 4 - Poor,574,60589.09,10.52,72,56,2021-11-20,2026-07-08,2,AL,Anita Patel
+CUST-00334,Joseph Chen,Indirect Auto,Tier 1 - Super Prime,776,54799.01,5.55,60,51,2022-04-17,2026-06-29,0,MA,Marcus Webb
+CUST-00335,Richard Nguyen,Indirect Auto,Tier 4 - Sub Prime,645,62748.51,11.46,36,27,2024-04-21,2026-07-01,0,CA,Anita Patel
+CUST-00336,Lisa Roberts,Business Banking,Prime Business,761,1878114.18,9.3,60,15,2025-04-05,2026-07-17,0,KY,Sarah Mitchell
+CUST-00337,Sofia Anderson,Direct Auto,Tier 4 - Poor,587,52041.89,11.08,60,36,2023-07-29,2026-07-02,0,AZ,Sarah Mitchell
+CUST-00338,Luca Perez,Business Banking,High Risk Business,603,731335.75,13.25,60,48,2022-07-28,2026-07-09,0,MO,Linda Cho
+CUST-00339,Barbara Green,Indirect Auto,Tier 2 - Prime,727,31740.03,6.23,48,5,2026-02-08,2026-07-06,1,NC,Sarah Mitchell
+CUST-00340,Joseph Sharma,Direct Auto,Tier 4 - Poor,562,59680.16,10.64,60,35,2023-08-19,2026-07-03,0,IN,Linda Cho
+CUST-00341,Carlos Miller,Indirect Auto,Tier 4 - Sub Prime,635,63297.73,11.33,36,7,2025-11-30,2026-06-24,0,OH,Sarah Mitchell
+CUST-00342,David Garcia,Business Banking,Prime Business,745,1642670.98,9.49,60,53,2022-03-11,2026-07-04,0,FL,Linda Cho
+CUST-00343,Priya Johnson,Indirect Auto,Tier 3 - Near Prime,678,38485.05,8.68,48,19,2024-12-11,2026-06-28,0,WA,Linda Cho
+CUST-00344,Lisa Garcia,Indirect Auto,Tier 5 - Deep Sub,582,50357.64,14.72,36,7,2025-12-04,2026-07-15,0,MI,James Okafor
+CUST-00345,Christopher Wilson,Business Banking,Standard Business,681,1653138.62,11.13,60,36,2023-07-27,2026-07-14,0,MI,Anita Patel
+CUST-00346,Aisha Hernandez,Indirect Auto,Tier 4 - Sub Prime,622,12394.11,11.09,36,28,2024-02-29,2026-07-16,0,AZ,Sarah Mitchell
+CUST-00347,Linda Mitchell,Indirect Auto,Tier 4 - Sub Prime,632,16039.56,11.4,60,15,2025-04-03,2026-06-23,0,CO,Sarah Mitchell
+CUST-00348,Aisha Martinez,Indirect Auto,Tier 3 - Near Prime,698,45301.11,8.84,60,9,2025-10-03,2026-07-03,2,MN,Marcus Webb
+CUST-00349,Jennifer Scott,Indirect Auto,Tier 3 - Near Prime,695,42170.95,8.63,48,23,2024-08-17,2026-06-29,0,KY,Anita Patel
+CUST-00350,Mohammed Martinez,Business Banking,High Risk Business,623,59422.17,13.33,60,56,2021-11-18,2026-06-28,0,MN,Anita Patel
+CUST-00351,Karen Martinez,Business Banking,Standard Business,698,918448.05,10.84,84,68,2020-12-11,2026-06-28,0,CT,Sarah Mitchell
+CUST-00352,Wei Hernandez,Indirect Auto,Tier 3 - Near Prime,684,49012.68,8.32,36,7,2025-11-23,2026-07-02,0,IA,Linda Cho
+CUST-00353,Christopher Martinez,Direct Auto,Tier 1 - Excellent,791,44234.49,5.2,48,26,2024-05-01,2026-06-24,0,MA,Sarah Mitchell
+CUST-00354,Sofia Martinez,Indirect Auto,Tier 1 - Super Prime,753,26831.93,5.35,36,18,2024-12-30,2026-06-29,0,MA,Marcus Webb
+CUST-00355,Charles Scott,Indirect Auto,Tier 4 - Sub Prime,624,49155.19,11.46,72,48,2022-07-15,2026-07-03,0,GA,Linda Cho
+CUST-00356,Priya Miller,Indirect Auto,Tier 1 - Super Prime,815,59463.57,5.64,60,27,2024-04-15,2026-06-20,0,SC,Sarah Mitchell
+CUST-00357,Robert Nguyen,Direct Auto,Tier 3 - Fair,684,39717.89,8.25,48,27,2024-04-18,2026-06-30,0,WA,Marcus Webb
+CUST-00358,William Carter,Business Banking,Standard Business,670,1643611.69,10.66,84,68,2020-11-18,2026-06-29,0,PA,Marcus Webb
+CUST-00359,Barbara Moore,Indirect Auto,Tier 1 - Super Prime,813,43608.62,5.85,48,12,2025-07-12,2026-06-29,0,AZ,Anita Patel
+CUST-00360,Sarah Williams,Indirect Auto,Tier 1 - Super Prime,796,45513.77,5.55,72,29,2024-02-09,2026-06-22,0,IL,Sarah Mitchell
+CUST-00361,Wei Johnson,Indirect Auto,Tier 4 - Sub Prime,618,42772.43,11.45,36,12,2025-07-15,2026-06-19,0,CT,Anita Patel
+CUST-00362,Susan Nguyen,Indirect Auto,Tier 3 - Near Prime,660,31952.2,8.86,72,64,2021-03-20,2026-07-05,0,PA,Anita Patel
+CUST-00363,Sofia Baker,Business Banking,Prime Business,732,1201662.18,9.71,60,30,2024-01-27,2026-07-18,0,OR,Marcus Webb
+CUST-00364,James Nelson,Indirect Auto,Tier 4 - Sub Prime,640,33552.15,10.93,36,35,2023-08-31,2026-07-03,0,IN,James Okafor
+CUST-00365,Aisha Miller,Direct Auto,Tier 4 - Poor,572,46858.57,10.54,72,32,2023-11-16,2026-06-23,0,AZ,Marcus Webb
+CUST-00366,James Smith,Direct Auto,Tier 1 - Excellent,794,50951.53,5.04,36,21,2024-10-09,2026-07-05,0,MD,Sarah Mitchell
+CUST-00367,Carlos Nguyen,Indirect Auto,Tier 1 - Super Prime,816,5431.64,5.39,48,47,2022-08-25,2026-07-07,0,NC,Sarah Mitchell
+CUST-00368,Yuki Taylor,Business Banking,Prime Business,724,763005.98,9.43,84,56,2021-11-28,2026-07-01,0,VA,Sarah Mitchell
+CUST-00369,Barbara Moore,Business Banking,High Risk Business,644,1977591.11,12.92,120,50,2022-05-28,2026-06-25,0,MA,Marcus Webb
+CUST-00370,Richard Green,Indirect Auto,Tier 3 - Near Prime,659,35500.61,8.58,60,54,2022-01-18,2026-06-27,0,CO,Linda Cho
+CUST-00371,David Green,Indirect Auto,Tier 4 - Sub Prime,624,33300.12,11.44,72,14,2025-05-17,2026-07-07,0,IA,James Okafor
+CUST-00372,Luca Chen,Direct Auto,Tier 4 - Poor,579,61742.95,10.87,48,43,2023-01-05,2026-07-12,1,OH,Linda Cho
+CUST-00373,Wei Lopez,Indirect Auto,Tier 4 - Sub Prime,636,45441.46,11.0,60,18,2025-01-19,2026-07-16,2,MN,James Okafor
+CUST-00374,Aisha Lopez,Business Banking,Prime Business,730,440605.25,9.47,60,53,2022-02-10,2026-07-16,0,OR,Anita Patel
+CUST-00375,Robert Chen,Indirect Auto,Tier 4 - Sub Prime,649,32285.54,11.29,72,3,2026-04-06,2026-07-02,0,NJ,Linda Cho
+CUST-00376,Ivan Mitchell,Direct Auto,Tier 3 - Fair,678,46651.51,8.16,72,64,2021-03-22,2026-07-08,2,CT,Sarah Mitchell
+CUST-00377,Priya Baker,Indirect Auto,Tier 1 - Super Prime,796,11976.1,5.51,36,27,2024-04-22,2026-06-27,0,VA,Sarah Mitchell
+CUST-00378,Susan Perez,Indirect Auto,Tier 3 - Near Prime,684,19895.46,8.48,36,28,2024-03-04,2026-07-08,0,NJ,Anita Patel
+CUST-00379,Charles Hernandez,Indirect Auto,Tier 3 - Near Prime,687,15967.07,8.44,48,34,2023-09-25,2026-06-25,0,GA,Marcus Webb
+CUST-00380,James Williams,Indirect Auto,Tier 2 - Prime,732,14359.73,6.05,36,10,2025-08-31,2026-06-18,0,OK,James Okafor
+CUST-00381,Wei Moore,Direct Auto,Tier 2 - Good,711,34540.42,6.1,60,34,2023-09-08,2026-06-19,0,LA,Sarah Mitchell
+CUST-00382,Susan Mitchell,Indirect Auto,Tier 5 - Deep Sub,577,36544.13,14.29,72,64,2021-04-14,2026-07-02,0,NY,Sarah Mitchell
+CUST-00383,Charles Taylor,Business Banking,Standard Business,660,1393960.57,11.09,60,49,2022-06-21,2026-07-15,0,MO,Anita Patel
+CUST-00384,Mohammed Scott,Indirect Auto,Tier 3 - Near Prime,687,33280.72,8.85,60,26,2024-05-16,2026-07-12,0,OK,James Okafor
+CUST-00385,Sarah Nelson,Direct Auto,Tier 1 - Excellent,780,15793.35,4.98,48,39,2023-04-09,2026-07-15,0,OK,James Okafor
+CUST-00386,Luca Sharma,Indirect Auto,Tier 4 - Sub Prime,624,53002.25,10.89,48,33,2023-10-27,2026-07-05,0,KY,James Okafor
+CUST-00387,Charles Perez,Direct Auto,Tier 3 - Fair,678,38728.31,8.67,36,28,2024-03-25,2026-07-17,0,OR,Linda Cho
+CUST-00388,Maria Baker,Business Banking,Prime Business,770,702580.25,9.58,84,52,2022-03-12,2026-06-23,0,NY,Anita Patel
+CUST-00389,Fatima Garcia,Indirect Auto,Tier 4 - Sub Prime,639,63762.39,11.25,60,25,2024-06-12,2026-07-03,0,WA,Sarah Mitchell
+CUST-00390,Wei Jones,Direct Auto,Tier 1 - Excellent,787,42902.73,5.01,48,13,2025-05-25,2026-07-08,0,FL,Marcus Webb
+CUST-00391,Fatima Scott,Direct Auto,Tier 3 - Fair,666,23808.92,8.54,60,48,2022-07-19,2026-07-06,0,AL,Sarah Mitchell
+CUST-00392,Patricia Hernandez,Business Banking,Standard Business,685,376270.31,10.7,60,14,2025-05-03,2026-07-10,1,PA,James Okafor
+CUST-00393,Patricia Miller,Indirect Auto,Tier 5 - Deep Sub,598,8827.54,14.97,72,9,2025-10-09,2026-07-02,0,NC,Sarah Mitchell
+CUST-00394,William Martinez,Indirect Auto,Tier 5 - Deep Sub,593,44289.96,14.82,72,42,2023-01-12,2026-07-09,0,IN,Marcus Webb
+CUST-00395,Fatima Martinez,Indirect Auto,Tier 5 - Deep Sub,567,44812.95,14.63,60,58,2021-09-15,2026-07-01,1,SC,Sarah Mitchell
+CUST-00396,Yuki Moore,Indirect Auto,Tier 1 - Super Prime,783,42862.85,5.51,72,70,2020-09-30,2026-07-09,1,KY,Linda Cho
+CUST-00397,William Lopez,Business Banking,Standard Business,658,763277.48,11.02,84,25,2024-06-28,2026-07-02,0,MI,James Okafor
+CUST-00398,Thomas Smith,Indirect Auto,Tier 1 - Super Prime,801,61817.45,5.98,72,41,2023-02-21,2026-06-23,0,MO,Anita Patel
+CUST-00399,Chen Moore,Indirect Auto,Tier 1 - Super Prime,760,57929.72,5.8,72,53,2022-02-17,2026-06-25,0,NC,Linda Cho
+CUST-00400,Karen Baker,Business Banking,Prime Business,740,517145.54,9.48,120,109,2017-07-27,2026-07-09,0,OH,Linda Cho
+CUST-00401,Maria Wilson,Indirect Auto,Tier 4 - Sub Prime,619,22375.72,11.29,72,60,2021-07-25,2026-07-03,0,TX,Sarah Mitchell
+CUST-00402,Patricia Wilson,Indirect Auto,Tier 4 - Sub Prime,645,63339.96,11.4,60,20,2024-11-11,2026-06-25,0,CA,James Okafor
+CUST-00403,Jennifer Brown,Indirect Auto,Tier 2 - Prime,725,30214.58,6.39,72,50,2022-05-15,2026-07-17,0,NC,James Okafor
+CUST-00404,Sarah Green,Indirect Auto,Tier 1 - Super Prime,790,15896.22,5.7,60,55,2022-01-10,2026-07-15,2,LA,James Okafor
+CUST-00405,Priya Anderson,Indirect Auto,Tier 5 - Deep Sub,567,16950.79,14.64,36,16,2025-03-04,2026-06-18,0,CO,Linda Cho
+CUST-00406,Barbara Patel,Indirect Auto,Tier 3 - Near Prime,679,33873.78,8.72,60,15,2025-04-23,2026-06-21,0,CO,James Okafor
+CUST-00407,David Perez,Direct Auto,Tier 4 - Poor,557,15041.62,11.15,60,40,2023-03-11,2026-07-11,0,SC,Sarah Mitchell
+CUST-00408,Linda Brown,Indirect Auto,Tier 2 - Prime,740,51247.82,6.37,48,13,2025-06-02,2026-06-29,0,VA,Marcus Webb
+CUST-00409,Fatima Thomas,Indirect Auto,Tier 4 - Sub Prime,614,34270.57,10.9,60,38,2023-05-11,2026-07-07,0,CA,James Okafor
+CUST-00410,Omar Thomas,Direct Auto,Tier 4 - Poor,618,20041.77,10.71,36,34,2023-09-15,2026-07-09,0,MD,Marcus Webb
+CUST-00411,Robert Wilson,Direct Auto,Tier 2 - Good,715,48944.14,5.62,60,58,2021-09-13,2026-06-21,0,MA,Anita Patel
+CUST-00412,Sarah Sharma,Direct Auto,Tier 2 - Good,737,32244.74,5.58,72,26,2024-05-10,2026-06-21,0,AL,Linda Cho
+CUST-00413,Priya Davis,Business Banking,High Risk Business,628,1071936.05,13.38,84,76,2020-04-11,2026-07-08,0,NY,Sarah Mitchell
+CUST-00414,Michael Williams,Indirect Auto,Tier 5 - Deep Sub,572,55111.6,14.33,48,14,2025-05-18,2026-07-15,0,MD,James Okafor
+CUST-00415,James Hernandez,Business Banking,Standard Business,714,1266742.44,11.21,120,38,2023-05-28,2026-06-29,0,CO,James Okafor
+CUST-00416,Mohammed Brown,Indirect Auto,Tier 1 - Super Prime,789,53061.2,5.57,36,26,2024-04-29,2026-06-20,0,OR,Sarah Mitchell
+CUST-00417,Michael Moore,Direct Auto,Tier 1 - Excellent,820,7439.19,5.43,36,22,2024-09-20,2026-06-18,0,MO,James Okafor
+CUST-00418,Ana Miller,Indirect Auto,Tier 4 - Sub Prime,648,36571.52,11.02,48,39,2023-04-30,2026-07-01,0,LA,Sarah Mitchell
+CUST-00419,Raj Anderson,Direct Auto,Tier 1 - Excellent,784,47153.02,5.36,72,16,2025-03-20,2026-07-01,0,MO,Sarah Mitchell
+CUST-00420,Priya Patel,Business Banking,Standard Business,670,1809845.69,10.62,120,47,2022-08-25,2026-06-24,0,MD,Sarah Mitchell
+CUST-00421,David Chen,Indirect Auto,Tier 2 - Prime,742,50942.49,6.02,60,26,2024-05-15,2026-06-18,0,WI,Linda Cho
+CUST-00422,Karen Wilson,Indirect Auto,Tier 2 - Prime,704,5394.13,6.1,48,16,2025-03-25,2026-06-24,0,NY,Linda Cho
+CUST-00423,Lisa Garcia,Business Banking,Standard Business,671,354408.86,10.58,84,52,2022-04-03,2026-07-11,0,MD,James Okafor
+CUST-00424,Michael Singh,Indirect Auto,Tier 5 - Deep Sub,589,48414.83,14.62,72,25,2024-05-31,2026-06-26,0,TX,Sarah Mitchell
+CUST-00425,Barbara Moore,Business Banking,High Risk Business,600,1571237.72,12.84,84,50,2022-05-27,2026-07-05,1,AL,Sarah Mitchell
+CUST-00426,Thomas Wilson,Indirect Auto,Tier 2 - Prime,745,8247.68,6.34,36,23,2024-08-23,2026-07-08,0,TX,James Okafor
+CUST-00427,William Ali,Business Banking,Prime Business,772,1210507.77,9.83,120,17,2025-02-14,2026-06-23,0,FL,James Okafor
+CUST-00428,Yuki Thomas,Indirect Auto,Tier 1 - Super Prime,754,20753.48,5.66,72,67,2020-12-24,2026-07-14,0,TN,James Okafor
+CUST-00429,Patricia Davis,Indirect Auto,Tier 1 - Super Prime,818,19774.75,5.41,36,20,2024-11-15,2026-06-27,1,MN,James Okafor
+CUST-00430,Aisha Carter,Business Banking,Standard Business,673,729200.32,10.8,84,50,2022-06-09,2026-06-24,0,WI,Marcus Webb
+CUST-00431,Patricia Davis,Business Banking,High Risk Business,591,1852215.75,12.99,60,18,2025-01-20,2026-06-24,0,AL,Linda Cho
+CUST-00432,Yuki Johnson,Indirect Auto,Tier 4 - Sub Prime,625,57125.14,11.23,60,3,2026-03-25,2026-07-15,0,NJ,Marcus Webb
+CUST-00433,Maria Green,Indirect Auto,Tier 3 - Near Prime,654,37785.45,8.63,60,38,2023-05-12,2026-07-14,0,MD,Sarah Mitchell
+CUST-00434,James Jones,Indirect Auto,Tier 3 - Near Prime,680,15219.18,8.4,60,15,2025-04-05,2026-07-10,0,WA,Anita Patel
+CUST-00435,Priya Roberts,Direct Auto,Tier 4 - Poor,605,6144.7,10.51,72,32,2023-11-15,2026-06-26,0,OK,Sarah Mitchell
+CUST-00436,Omar Adams,Indirect Auto,Tier 4 - Sub Prime,645,16932.51,11.46,72,5,2026-01-20,2026-07-02,0,AL,Marcus Webb
+CUST-00437,Charles Green,Indirect Auto,Tier 2 - Prime,727,46058.68,6.51,60,43,2022-12-20,2026-07-10,0,CT,Linda Cho
+CUST-00438,Thomas Baker,Direct Auto,Tier 3 - Fair,665,14102.49,8.67,72,20,2024-11-13,2026-07-02,2,GA,Sarah Mitchell
+CUST-00439,Joseph Martinez,Indirect Auto,Tier 1 - Super Prime,768,63232.23,5.58,60,31,2023-12-25,2026-06-28,0,MI,Sarah Mitchell
+CUST-00440,Barbara Taylor,Indirect Auto,Tier 1 - Super Prime,770,64741.15,5.29,48,44,2022-11-07,2026-07-13,0,NJ,Marcus Webb
+CUST-00441,Karen Wilson,Indirect Auto,Tier 2 - Prime,713,57807.91,6.51,72,55,2021-12-18,2026-06-19,0,LA,Marcus Webb
+CUST-00442,Maria Lopez,Indirect Auto,Tier 4 - Sub Prime,617,16084.79,11.06,60,41,2023-02-27,2026-06-29,0,FL,James Okafor
+CUST-00443,Richard Thomas,Indirect Auto,Tier 1 - Super Prime,807,55768.29,5.85,72,50,2022-05-28,2026-07-03,0,GA,Linda Cho
+CUST-00444,Robert Taylor,Business Banking,Prime Business,775,1939189.41,9.83,84,58,2021-09-21,2026-07-12,0,IA,James Okafor
+CUST-00445,Chen Sharma,Business Banking,Prime Business,756,683546.47,9.68,84,37,2023-06-10,2026-07-17,0,WA,Sarah Mitchell
+CUST-00446,David Green,Indirect Auto,Tier 1 - Super Prime,816,11558.98,5.33,72,8,2025-11-13,2026-07-02,0,IN,Linda Cho
+CUST-00447,Linda Wilson,Indirect Auto,Tier 3 - Near Prime,699,31373.23,8.37,60,52,2022-03-27,2026-07-13,0,MA,James Okafor
+CUST-00448,Joseph Mitchell,Indirect Auto,Tier 1 - Super Prime,806,11790.3,5.68,48,28,2024-03-16,2026-07-18,0,FL,Anita Patel
+CUST-00449,Luca Green,Direct Auto,Tier 4 - Poor,633,48102.48,11.15,36,8,2025-11-06,2026-06-28,0,AL,Sarah Mitchell
+CUST-00450,Jennifer Anderson,Indirect Auto,Tier 2 - Prime,743,38020.75,6.06,36,13,2025-06-05,2026-06-21,0,OK,Marcus Webb
+CUST-00451,Barbara Martinez,Indirect Auto,Tier 5 - Deep Sub,576,30174.9,14.41,60,49,2022-06-25,2026-07-09,0,OH,Linda Cho
+CUST-00452,Yuki Mitchell,Direct Auto,Tier 4 - Poor,556,32518.56,10.78,72,3,2026-04-04,2026-07-11,0,AZ,James Okafor
+CUST-00453,Susan Wilson,Indirect Auto,Tier 5 - Deep Sub,553,19682.79,14.52,60,42,2023-01-09,2026-06-22,0,TX,Anita Patel
+CUST-00454,Susan Anderson,Indirect Auto,Tier 4 - Sub Prime,624,56229.76,10.8,60,24,2024-07-27,2026-07-15,0,MN,Anita Patel
+CUST-00455,Chen Jones,Indirect Auto,Tier 1 - Super Prime,783,49960.09,5.92,60,5,2026-02-09,2026-07-08,0,LA,James Okafor
+CUST-00456,Jessica Brown,Indirect Auto,Tier 3 - Near Prime,699,33249.01,8.74,36,20,2024-11-12,2026-07-02,0,NY,Sarah Mitchell
+CUST-00457,Aisha Martinez,Indirect Auto,Tier 1 - Super Prime,797,48444.45,5.53,60,30,2024-01-20,2026-07-10,0,WI,Sarah Mitchell
+CUST-00458,Christopher Thomas,Business Banking,Standard Business,713,1471910.25,10.64,84,69,2020-10-19,2026-06-29,0,CA,Linda Cho
+CUST-00459,Aisha Hernandez,Indirect Auto,Tier 1 - Super Prime,788,42527.64,5.39,36,16,2025-03-12,2026-07-05,0,CA,Marcus Webb
+CUST-00460,Raj Ali,Direct Auto,Tier 3 - Fair,680,52411.73,8.36,60,22,2024-09-16,2026-06-24,0,WA,Sarah Mitchell
+CUST-00461,William Perez,Indirect Auto,Tier 4 - Sub Prime,639,16640.93,11.13,60,46,2022-09-22,2026-06-23,0,IL,James Okafor
+CUST-00462,Priya Johnson,Direct Auto,Tier 1 - Excellent,786,52039.34,4.86,72,10,2025-09-12,2026-06-30,0,OH,Sarah Mitchell
+CUST-00463,Richard Green,Direct Auto,Tier 2 - Good,731,8972.78,5.61,48,20,2024-11-15,2026-07-06,0,PA,Sarah Mitchell
+CUST-00464,Sarah Scott,Indirect Auto,Tier 2 - Prime,707,47315.97,6.72,60,48,2022-07-26,2026-07-16,0,MA,Anita Patel
+CUST-00465,Fatima Johnson,Indirect Auto,Tier 1 - Super Prime,818,23139.1,5.4,36,26,2024-05-05,2026-07-12,1,KY,James Okafor
+CUST-00466,Michael Martinez,Indirect Auto,Tier 4 - Sub Prime,647,25406.95,11.26,72,70,2020-10-07,2026-07-14,0,OH,Linda Cho
+CUST-00467,Patricia Ali,Business Banking,Standard Business,679,1441670.91,11.25,120,20,2024-10-27,2026-07-17,0,MA,Linda Cho
+CUST-00468,Priya Thomas,Indirect Auto,Tier 1 - Super Prime,816,50970.81,5.56,60,4,2026-03-11,2026-06-28,1,OH,Anita Patel
+CUST-00469,Sofia Miller,Direct Auto,Tier 2 - Good,713,51367.23,6.13,36,20,2024-11-17,2026-07-15,0,OH,Sarah Mitchell
+CUST-00470,Raj Carter,Direct Auto,Tier 2 - Good,713,21263.13,6.06,60,39,2023-05-03,2026-07-09,0,TX,Marcus Webb
+CUST-00471,Fatima Lopez,Indirect Auto,Tier 1 - Super Prime,791,59197.54,5.7,36,9,2025-10-19,2026-07-05,0,MI,Anita Patel
+CUST-00472,Michael Mitchell,Indirect Auto,Tier 5 - Deep Sub,590,63420.91,14.92,72,19,2024-11-30,2026-06-19,0,MI,James Okafor
+CUST-00473,Raj Sharma,Business Banking,High Risk Business,639,1897524.13,13.31,60,45,2022-10-26,2026-07-06,0,MA,James Okafor
+CUST-00474,William Miller,Indirect Auto,Tier 5 - Deep Sub,583,33520.06,14.64,60,33,2023-10-27,2026-07-09,0,WA,Linda Cho
+CUST-00475,Richard Perez,Direct Auto,Tier 4 - Poor,586,52545.86,10.8,72,54,2022-02-02,2026-06-29,0,WA,Linda Cho
+CUST-00476,Susan Jones,Direct Auto,Tier 3 - Fair,656,53834.94,8.31,72,58,2021-10-02,2026-07-01,0,AL,Sarah Mitchell
+CUST-00477,Wei Jones,Business Banking,High Risk Business,609,1204718.11,13.08,84,47,2022-08-12,2026-07-04,0,WI,Linda Cho
+CUST-00478,James Wilson,Business Banking,Standard Business,663,1013875.54,11.18,120,13,2025-05-28,2026-07-14,1,MN,Marcus Webb
+CUST-00479,Lisa Singh,Business Banking,Standard Business,716,618431.34,10.91,120,79,2020-01-15,2026-06-27,1,IA,James Okafor
+CUST-00480,Linda Smith,Direct Auto,Tier 4 - Poor,595,39963.62,10.6,72,19,2024-12-24,2026-07-07,1,SC,Sarah Mitchell
+CUST-00481,Chen Adams,Direct Auto,Tier 4 - Poor,606,56674.87,10.92,36,18,2025-01-06,2026-07-06,0,WA,James Okafor
+CUST-00482,Jennifer Chen,Indirect Auto,Tier 4 - Sub Prime,638,33492.28,11.2,48,38,2023-05-06,2026-07-07,0,OK,Marcus Webb
+CUST-00483,William Garcia,Indirect Auto,Tier 5 - Deep Sub,555,9304.76,14.45,36,12,2025-07-08,2026-06-27,0,IL,James Okafor
+CUST-00484,Chen Lopez,Business Banking,Prime Business,781,1406011.51,9.66,84,29,2024-02-16,2026-07-01,0,GA,Marcus Webb
+CUST-00485,Mohammed Williams,Business Banking,Prime Business,734,64488.48,9.47,84,36,2023-07-26,2026-07-05,1,TX,Sarah Mitchell
+CUST-00486,Luca Kim,Business Banking,Prime Business,760,768728.27,9.28,120,67,2021-01-13,2026-07-14,0,MA,Sarah Mitchell
+CUST-00487,Robert Singh,Indirect Auto,Tier 1 - Super Prime,817,58394.93,5.64,36,18,2025-01-01,2026-06-27,2,WI,Linda Cho
+CUST-00488,Richard Williams,Direct Auto,Tier 4 - Poor,555,33132.13,10.92,72,45,2022-10-07,2026-06-23,0,SC,Sarah Mitchell
+CUST-00489,Maria Chen,Direct Auto,Tier 3 - Fair,683,8685.07,8.31,72,24,2024-07-07,2026-07-09,0,TN,Linda Cho
+CUST-00490,James Davis,Indirect Auto,Tier 1 - Super Prime,808,9611.74,5.89,60,19,2024-12-17,2026-07-10,1,WI,Marcus Webb
+CUST-00491,Luca Williams,Indirect Auto,Tier 1 - Super Prime,778,27186.01,5.4,48,19,2024-12-18,2026-07-03,0,NJ,Linda Cho
+CUST-00492,Jessica Lopez,Indirect Auto,Tier 4 - Sub Prime,628,55256.85,11.31,72,52,2022-03-27,2026-06-25,0,TX,Anita Patel
+CUST-00493,Thomas Green,Indirect Auto,Tier 5 - Deep Sub,576,15056.02,14.76,72,63,2021-04-22,2026-06-18,0,MN,James Okafor
+CUST-00494,Priya Williams,Business Banking,High Risk Business,647,333042.17,13.28,84,7,2025-11-25,2026-07-04,0,NY,Sarah Mitchell
+CUST-00495,Wei Mitchell,Direct Auto,Tier 1 - Excellent,771,41629.13,5.29,60,24,2024-07-03,2026-07-15,0,LA,Marcus Webb
+CUST-00496,James Baker,Indirect Auto,Tier 1 - Super Prime,816,25244.4,5.58,48,23,2024-08-06,2026-07-18,0,NY,Sarah Mitchell
+CUST-00497,Jessica Davis,Indirect Auto,Tier 1 - Super Prime,778,26090.99,5.85,60,19,2024-12-25,2026-06-29,0,SC,Linda Cho
+CUST-00498,Robert Mitchell,Indirect Auto,Tier 4 - Sub Prime,616,27557.51,10.97,48,10,2025-09-13,2026-07-09,0,IA,Anita Patel
+CUST-00499,Chen Green,Business Banking,Prime Business,757,1811613.41,9.88,84,38,2023-06-02,2026-07-10,0,NJ,Linda Cho
+CUST-00500,Omar Miller,Direct Auto,Tier 3 - Fair,685,15675.77,8.01,36,34,2023-09-26,2026-06-29,0,IL,Sarah Mitchell

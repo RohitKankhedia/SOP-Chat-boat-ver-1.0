@@ -1,0 +1,94 @@
+================================================================
+  GIT — Push v3.0 Guardrails Edition to GitHub
+  Run these commands in Git Bash from your repo folder
+================================================================
+
+STEP 1: Go to your repo folder
+----------------------------------------------------------
+cd /c/Users/vmuser/agentic-sop-assistant
+
+(or wherever you pushed v2.0 — same folder)
+
+
+STEP 2: Copy the new/updated files from Claude's project folder
+----------------------------------------------------------
+Run this in PowerShell (not Git Bash) to copy the files:
+
+Copy-Item "C:\Users\vmuser\Claude\Projects\SOP Chat bot\agents\guardrails.py" `
+          "C:\Users\vmuser\agentic-sop-assistant\agents\guardrails.py"
+
+Copy-Item "C:\Users\vmuser\Claude\Projects\SOP Chat bot\agents\sop_retriever.py" `
+          "C:\Users\vmuser\agentic-sop-assistant\agents\sop_retriever.py"
+
+Copy-Item "C:\Users\vmuser\Claude\Projects\SOP Chat bot\chatbot\app.py" `
+          "C:\Users\vmuser\agentic-sop-assistant\chatbot\app.py"
+
+Copy-Item "C:\Users\vmuser\Claude\Projects\SOP Chat bot\README.md" `
+          "C:\Users\vmuser\agentic-sop-assistant\README.md"
+
+Copy-Item "C:\Users\vmuser\Claude\Projects\SOP Chat bot\PITCH_SCRIPT.txt" `
+          "C:\Users\vmuser\agentic-sop-assistant\PITCH_SCRIPT.txt"
+
+Copy-Item "C:\Users\vmuser\Claude\Projects\SOP Chat bot\COPILOT_REBUILD_PROMPT.txt" `
+          "C:\Users\vmuser\agentic-sop-assistant\COPILOT_REBUILD_PROMPT.txt"
+
+
+STEP 3: Back in Git Bash — stage and commit
+----------------------------------------------------------
+cd /c/Users/vmuser/agentic-sop-assistant
+
+git add agents/guardrails.py agents/sop_retriever.py chatbot/app.py README.md PITCH_SCRIPT.txt COPILOT_REBUILD_PROMPT.txt
+
+git status
+# Should show 6 files: 1 new (guardrails.py), 5 modified
+
+git commit -m "feat: v3.0 Guardrails Edition
+
+- agents/guardrails.py (NEW): code-level safety layer — no LLM
+  - Input: 25+ regex patterns block prompt injection, DAN/jailbreak, delimiter attacks
+  - Input: PII detection blocks SSN/card/account numbers in user questions
+  - Input: 2,000-char length gate
+  - Output: retrieval hard-block — LLM answer discarded if cosine_sim < 0.25
+  - Output: PII redaction (SSN, card, routing, account, phone, email)
+  - Output: <script> / javascript: stripping + control-char sanitization
+  - Output: 4,000-char response length cap
+
+- agents/sop_retriever.py: check_input() at top of ask(), check_output() before return
+- chatbot/app.py: input guard before routing + output guard for email agent path
+- README.md, PITCH_SCRIPT.txt: updated to v3.0
+
+EXL Hackathon 2026 | Agentic Rate Change Intelligence System"
+
+
+STEP 4: Push
+----------------------------------------------------------
+git push
+
+(Git will ask for username + Personal Access Token if not cached)
+
+
+STEP 5: Verify
+----------------------------------------------------------
+git log --oneline -3
+
+Open https://github.com/RohitKankhedia/exl-rate-change-intelligence
+You should see the v3.0 commit at the top and the README updated.
+
+================================================================
+IF YOU HAVEN'T PUSHED v2.0 YET — FULL FIRST PUSH
+================================================================
+
+If you never pushed to GitHub at all, copy ALL files first:
+
+xcopy /E /I /Y "C:\Users\vmuser\Claude\Projects\SOP Chat bot" ^
+              "C:\Users\vmuser\agentic-sop-assistant"
+
+Then in Git Bash:
+  cd /c/Users/vmuser/agentic-sop-assistant
+  git init -b main
+  git add .
+  git commit -m "feat: Agentic Rate Change Intelligence v3.0 — EXL Hackathon 2026"
+  git remote add origin https://github.com/RohitKankhedia/exl-rate-change-intelligence.git
+  git push -u origin main
+
+================================================================

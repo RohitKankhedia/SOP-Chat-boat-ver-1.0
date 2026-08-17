@@ -1,0 +1,37 @@
+Product,CreditTier,OurCurrentRate,CompetitorBank,CompetitorRate,RateGap
+Indirect Auto,Tier 1 - Super Prime,5.99,Chase,5.69,0.3
+Indirect Auto,Tier 1 - Super Prime,5.99,Wells Fargo,5.73,0.26
+Indirect Auto,Tier 1 - Super Prime,5.99,Bank of America,5.87,0.12
+Indirect Auto,Tier 2 - Prime,6.74,Chase,6.47,0.27
+Indirect Auto,Tier 2 - Prime,6.74,Wells Fargo,6.58,0.16
+Indirect Auto,Tier 2 - Prime,6.74,Bank of America,6.51,0.23
+Indirect Auto,Tier 3 - Near Prime,8.99,Chase,8.55,0.44
+Indirect Auto,Tier 3 - Near Prime,8.99,Wells Fargo,8.8,0.19
+Indirect Auto,Tier 3 - Near Prime,8.99,Bank of America,8.79,0.2
+Indirect Auto,Tier 4 - Sub Prime,11.49,Chase,11.13,0.36
+Indirect Auto,Tier 4 - Sub Prime,11.49,Wells Fargo,11.37,0.12
+Indirect Auto,Tier 4 - Sub Prime,11.49,Bank of America,11.27,0.22
+Indirect Auto,Tier 5 - Deep Sub,14.99,Chase,14.67,0.32
+Indirect Auto,Tier 5 - Deep Sub,14.99,Wells Fargo,14.88,0.11
+Indirect Auto,Tier 5 - Deep Sub,14.99,Bank of America,14.87,0.12
+Direct Auto,Tier 1 - Excellent,5.49,Chase,5.09,0.4
+Direct Auto,Tier 1 - Excellent,5.49,Wells Fargo,5.33,0.16
+Direct Auto,Tier 1 - Excellent,5.49,Bank of America,5.42,0.07
+Direct Auto,Tier 2 - Good,6.24,Chase,5.9,0.34
+Direct Auto,Tier 2 - Good,6.24,Wells Fargo,6.04,0.2
+Direct Auto,Tier 2 - Good,6.24,Bank of America,6.18,0.06
+Direct Auto,Tier 3 - Fair,8.74,Chase,8.39,0.35
+Direct Auto,Tier 3 - Fair,8.74,Wells Fargo,8.53,0.21
+Direct Auto,Tier 3 - Fair,8.74,Bank of America,8.66,0.08
+Direct Auto,Tier 4 - Poor,11.24,Chase,10.95,0.29
+Direct Auto,Tier 4 - Poor,11.24,Wells Fargo,11.1,0.14
+Direct Auto,Tier 4 - Poor,11.24,Bank of America,11.1,0.14
+Business Banking,Prime Business,10.0,Chase,9.55,0.45
+Business Banking,Prime Business,10.0,Wells Fargo,9.89,0.11
+Business Banking,Prime Business,10.0,Bank of America,9.91,0.09
+Business Banking,Standard Business,11.25,Chase,10.9,0.35
+Business Banking,Standard Business,11.25,Wells Fargo,11.06,0.19
+Business Banking,Standard Business,11.25,Bank of America,11.19,0.06
+Business Banking,High Risk Business,13.5,Chase,13.12,0.38
+Business Banking,High Risk Business,13.5,Wells Fargo,13.34,0.16
+Business Banking,High Risk Business,13.5,Bank of America,13.33,0.17

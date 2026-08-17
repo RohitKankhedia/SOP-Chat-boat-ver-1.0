@@ -1,0 +1,471 @@
+================================================================
+  PITCH SCRIPT — v3.0 Final
+  Project: Agentic Rate Change Intelligence & Customer Retention
+  EXL Hackathon 2026
+  Presenter: Rohit Kankhedia
+
+  HOW TO USE THIS:
+  Read it twice. Then put it away and just talk.
+  The judges want to see YOU — not someone reciting slides.
+  The script gives you the structure and the numbers.
+  Your personality fills the rest.
+================================================================
+
+
+----------------------------------------------------------------
+BEFORE YOU START — 5-MINUTE PREP
+----------------------------------------------------------------
+
+  1. App is open and running at localhost:8501
+  2. Tab 1 is showing (Rate Change Intelligence)
+  3. Rate change = 25 already entered, analysis already run
+     (so you're not waiting for loading during the pitch)
+  4. One high-risk customer is selected in the retention offer section
+  5. Tab 2 tested — you typed one question and it responded
+  6. GitHub README open in another browser tab
+  7. Take one deep breath before you walk up
+
+  You have 5–7 minutes. Do not rush. Pausing after a
+  good line is more powerful than filling every second.
+
+
+----------------------------------------------------------------
+PART 1 — THE HOOK  (30 seconds)
+Don't open with "Hi my name is" — start with the story.
+----------------------------------------------------------------
+
+  "Let me tell you something that happened in March 2022.
+
+   The Fed raised interest rates for the first time in three years.
+   It was big news.
+
+   And at banks across America, operations teams got very busy —
+   updating systems, notifying dealers, filing compliance documents.
+
+   But nobody in those banks was asking the question
+   that actually mattered most that day:
+
+   Which of our customers is about to leave?
+
+   Three weeks later, refinancing applications at competitor banks
+   spiked by 40 percent.
+   Billions of dollars in loans walked out the door.
+   Quietly. No warning. No chance to respond.
+
+   We built a system that sees it coming — before it happens."
+
+   [PAUSE. Let the room absorb it. Don't rush into Part 2.]
+
+
+----------------------------------------------------------------
+PART 2 — THE PROBLEM  (30 seconds)
+Make this feel real. Don't just list problems.
+----------------------------------------------------------------
+
+  "Here is what actually happens at a bank the day rates change.
+
+   A relationship manager sits down with a spreadsheet.
+   Maybe 500 customers. Maybe more.
+   They start going through rows — one by one —
+   trying to figure out who might be at risk.
+
+   Two days later they have a call list.
+   But by then? Half those customers already got a pre-approval
+   letter from Chase in their inbox.
+
+   The window to act was 48 hours.
+   They had the tools.
+   They just couldn't move fast enough."
+
+   [Let this land. The judges have clients who live this problem.]
+
+
+----------------------------------------------------------------
+PART 3 — YOUR SOLUTION  (45 seconds)
+Confident, not rushed. Three clean steps.
+----------------------------------------------------------------
+
+  "We built what we're calling the
+   Agentic Rate Change Intelligence System.
+
+   It does in 3 minutes what currently takes 2 days.
+
+   Here's how it works — and I'll show you, not just tell you.
+
+   Step one: A relationship manager types in the rate change.
+   Twenty-five basis points. Effective today.
+
+   Step two: Our AI scans every customer in the portfolio,
+   scores each one zero to one hundred for churn risk,
+   and ranks them by who is most likely to leave —
+   based on five factors: rate gap versus competitors,
+   loan balance, months remaining, credit score, payment history.
+
+   Step three: For each at-risk customer, it generates
+   a personalized retention offer — grounded in the bank's
+   own policies, following their own SOPs.
+
+   Not a generic script. A specific offer for that specific person.
+   Ready before the competitor picks up the phone.
+
+   Let me show you."
+
+
+----------------------------------------------------------------
+PART 4 — LIVE DEMO  (2.5 minutes)
+Narrate what the judges are seeing. Don't go silent.
+----------------------------------------------------------------
+
+[You should already have the analysis loaded. Click Run Analysis
+anyway so they see it's real — not a screenshot.]
+
+--- Dashboard loads ---
+
+  "So the Fed just raised rates 25 basis points.
+   In seconds — not two days — we know exactly what's happening
+   to this bank's portfolio."
+
+[Point to the 5 KPI cards across the top]
+
+  "How many customers are high risk.
+   What the total at-risk loan balance is.
+   And — this one — the estimated loss if we do nothing.
+
+   On a portfolio of 500 customers representing 132 million dollars
+   in loans, we're looking at real money at stake.
+   That number on screen? That's what it costs the bank
+   if nobody makes a call this week."
+
+[Point to the bar charts]
+
+  "We can see which product line is most exposed.
+   After a rate hike, indirect auto loans tend to be hit hardest
+   because dealers can steer customers to competitors immediately.
+   The chart makes that visible in one second."
+
+[Scroll to the call list table]
+
+  "This is the priority call list.
+   The relationship manager doesn't decide who to call first.
+   The AI already ranked them.
+   And they can download this as a CSV and start dialing
+   before their morning coffee gets cold."
+
+[Click Generate Retention Offer for a high-risk customer]
+
+  "Now here's the part I'm most proud of.
+
+   I select this customer — high churn score, business banking,
+   meaningful rate gap — and click Generate Retention Offer.
+
+   The AI reads their full profile.
+   Their rate, their balance, what competitors are offering,
+   their credit tier.
+   It pulls the relevant section from the bank's own policy documents.
+   And it writes a specific offer for THIS person.
+   Not a template. A recommendation.
+
+   Talking points for the relationship manager.
+   Whether it needs manager approval.
+   Which policy section it's based on.
+
+   All in about 10 seconds."
+
+[Wait for it to load. Point to the output.]
+
+  "This is the difference between AI that answers questions
+   and AI that gives you the next action to take."
+
+[Switch to Tab 2]
+
+  "And underneath all of this is the SOP Intelligence Assistant.
+   This is where operations staff get answers during execution.
+   Not Google. Not a 40-page Word document.
+   Just: ask a question, get the answer from the bank's own policies.
+
+   Watch this."
+
+[Type: "Who approves rate changes?"]
+
+  "See that? It's not just answering from the document.
+   It's showing me exactly which section of which policy it used,
+   and how well that section matched my question.
+   87 percent match. Section 3 — Approval Authority.
+   That's auditable. That's defensible.
+   That's something a compliance officer can actually point to."
+
+
+----------------------------------------------------------------
+PART 5 — THE TECHNICAL DEPTH  (30 seconds)
+One paragraph. Don't drown them in jargon.
+Tell them just enough to show it's real.
+----------------------------------------------------------------
+
+  "Under the hood, this is a multi-agent AI system.
+
+   Version 3 — what you're seeing now — uses real retrieval
+   and a full safety layer that runs in Python, not prompts.
+
+   We chunk the SOPs into 280-token sections, embed them
+   with a local embedding model, build a vector search index
+   and a keyword search index, fuse the results using
+   Reciprocal Rank Fusion, and send only the top 5 relevant
+   excerpts to the LLM.
+
+   And then — before anything reaches the user — it goes
+   through a guardrails layer. Input side: 25+ regex patterns
+   block prompt injection attempts. Output side: PII is scrubbed
+   with regex, the retrieval confidence is verified a second time,
+   and if the LLM somehow answered something it shouldn't have,
+   that answer is overridden. In code. Not in a prompt.
+
+   That's the difference between a demo and something you
+   could actually put in a bank."
+
+
+----------------------------------------------------------------
+PART 6 — THE NUMBER  (20 seconds)
+One number. Say it clearly. Let it sit.
+----------------------------------------------------------------
+
+  "A mid-size bank with 500 million dollars in auto loans
+   loses approximately 15 million dollars per rate cycle
+   to silent customer churn.
+
+   Our system, retaining just half of the highest-risk customers,
+   recovers 750 thousand dollars per rate event.
+
+   With 4 to 6 Fed decisions per year —
+   that's 3 to 4.5 million dollars in recovered assets annually.
+
+   From a system that runs on a laptop."
+
+
+----------------------------------------------------------------
+PART 7 — THE CLOSE  (15 seconds)
+Short. Confident. End on something memorable.
+----------------------------------------------------------------
+
+  "Every Fed rate change used to mean two days of scrambling
+   and millions leaving quietly through the back door.
+
+   We turned that into a 3-minute AI playbook —
+   personal to each customer, grounded in bank policy,
+   and ready before anyone else even knows there's a problem.
+
+   That's the Agentic Rate Change Intelligence System.
+   Thank you."
+
+   [Stop. Don't add anything. Just smile and take questions.]
+
+
+================================================================
+JUDGE QUESTIONS — HOW TO ANSWER
+(Read these before the presentation. Practice the answers out loud.)
+================================================================
+
+Q: "How is the churn score calculated?"
+
+A: "Five factors, each with a weight. Rate gap versus the best
+   competitor — that's the biggest one at 35 percent —
+   because it directly answers 'how much does it cost this
+   customer to stay with us?' Then loan balance, months remaining,
+   FICO score, and payment history.
+   It's transparent. You can open the code and see exactly
+   why any customer got their score."
+
+---
+
+Q: "Is the competitor rate data real?"
+
+A: "In the demo it's simulated — three major banks,
+   built to realistic spreads.
+   In production you'd pull from a rate aggregation API
+   or the bank's own competitive intelligence team.
+   The system is already structured for that.
+   It's one config change."
+
+   [Don't be defensive about this. Every hackathon uses simulated data.
+   The architecture is what matters, not the data source.]
+
+---
+
+Q: "What stops the AI from making up an offer that violates policy?"
+
+A: "Three things, all in Python — not prompts.
+   First, retrieval: the AI only sees the top five chunks
+   from the actual SOP document. It's working from policy,
+   not its training data.
+   Second, there's an input guardrail — 25+ regex patterns
+   block prompt injection and jailbreak attempts before
+   the LLM ever sees the message.
+   Third, there's an output guardrail — even if the LLM answered,
+   we check retrieval confidence again on the output side.
+   Below the threshold? The answer is discarded and replaced
+   with 'not covered in policy.' No exceptions. No prompting required.
+   It's the same principle as input validation in any secure app."
+
+---
+
+Q: "Can this work with a real customer database?"
+
+A: "Yes. The churn scorer reads a standard CSV export.
+   That's what any core banking system — FiServ, Jack Henry —
+   can produce in a scheduled report.
+   No data migration. No retraining.
+   Drop in the file and run."
+
+---
+
+Q: "Why Groq and not Azure OpenAI?"
+
+A: "For the hackathon — free and fast.
+   For production — the agent code is model-agnostic.
+   EXL clients would use whichever model fits their
+   security and compliance requirements.
+   Azure OpenAI, AWS Bedrock, or even a private on-premise LLM.
+   The interface is the same."
+
+---
+
+Q: "What happens if the API goes down?"
+
+A: "The SOP assistant has a fallback path.
+   If the Groq call fails, the system returns the most relevant
+   SOP excerpt it found — verbatim, with the section heading.
+   The user still gets something useful.
+   They're not looking at a Python error message."
+
+---
+
+Q: "Why should EXL build this versus the bank building it themselves?"
+
+A: "Banks are good at banking. They're not AI companies.
+   EXL brings the AI expertise, the implementation speed,
+   and the domain knowledge across multiple banking clients.
+   This system took one hackathon to build the core.
+   EXL can take it, productionize it, and deploy it
+   across ten banking clients in the time it would take
+   one bank to write an RFP."
+
+   [This is the EXL-specific answer. Important for hackathons
+   where EXL judges want to see business applicability.]
+
+---
+
+Q: "How long did this take to build?"
+
+A: "The core system was built in one hackathon.
+   Which is partly the point —
+   when you build on the right architecture from the start,
+   it scales. Adding a new SOP document is literally
+   dropping a file in a folder.
+   Adding a new scoring factor is 5 lines of code.
+   The hard architectural decisions are already made."
+
+   [Smile when you say this. It's a good answer.]
+
+
+================================================================
+WHAT NOT TO SAY
+(Mistakes that kill otherwise good pitches)
+================================================================
+
+  ✗ Don't say "so basically what this does is..."
+    Start with what it does, not a disclaimer.
+
+  ✗ Don't say "I know it's not perfect but..."
+    Nobody expects hackathon code to be perfect.
+    Don't point out your own weaknesses.
+
+  ✗ Don't read from the screen.
+    You know this project. You built it.
+    Talk TO the judges, not AT the slides.
+
+  ✗ Don't say "LLM" or "vector embeddings" in the opening.
+    Lead with the business problem.
+    Save the tech words for Part 5.
+
+  ✗ Don't apologize for anything.
+    "Sorry if the demo takes a second to load" —
+    just don't say it. Stand there confidently.
+    If something takes a second, say "and here it comes..."
+
+  ✗ Don't end with "...so yeah, that's it."
+    End on a complete sentence. Then stop talking.
+
+
+================================================================
+IF SOMETHING GOES WRONG DURING THE DEMO
+================================================================
+
+  API returns an error:
+    "This is actually showing one of our v2 features —
+    the graceful degradation. When the AI is unavailable,
+    it returns the most relevant SOP excerpt directly.
+    The user always gets something useful."
+    [Turn the bug into a feature demo.]
+
+  App doesn't load:
+    "Let me pull up the GitHub README while it loads —
+    it has the architecture diagram and the impact numbers."
+    [Always have the README open as a backup.]
+
+  Forgot a number:
+    "The exact figures are in the README — but the headline
+    is 3 minutes versus 2 days, and $750K recovered per rate event."
+    [You only need to remember three numbers:
+     3 minutes, $15M lost, $750K recovered.]
+
+  Judge asks something you don't know:
+    "That's a good question — I haven't tested that specific
+    scenario yet, but here's how I'd approach it..."
+    [Honesty + thinking out loud beats a wrong confident answer.]
+
+
+================================================================
+YOUR THREE NUMBERS — MEMORIZE THESE
+================================================================
+
+  3 minutes     — how long our system takes
+  $15 million   — what the bank loses per rate cycle without this
+  $750,000      — what the bank recovers per event with this
+
+  Everything else supports these three.
+  If a judge remembers only one thing, make it one of these.
+
+
+================================================================
+YOUR CLOSING LINE — LEARN IT WORD FOR WORD
+================================================================
+
+  "Every Fed rate change used to mean two days of scrambling
+   and millions leaving quietly through the back door.
+
+   We turned that into a 3-minute AI playbook —
+   personal to each customer, grounded in bank policy,
+   and ready before anyone else even knows there's a problem."
+
+  That's it. That's the line.
+  Say it, pause, say "Thank you," and stop.
+
+
+================================================================
+ONE LAST THING
+================================================================
+
+  The judges have seen dozens of AI demos today.
+  Most of them will remember very little.
+
+  What they remember is how a presenter made them FEEL.
+  Did they feel like this person understands the real problem?
+  Did they feel like this could actually work?
+  Did they trust this person?
+
+  You built something real.
+  You understand the banking problem.
+  You made architectural decisions that most hackathon teams don't.
+
+  Go show them that.
+
+================================================================

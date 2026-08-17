@@ -1,0 +1,1883 @@
+================================================================
+  GITHUB COPILOT REBUILD PROMPT
+  Project: Agentic Rate Change Intelligence & Customer Retention
+  EXL Hackathon 2026 | By Rohit Kankhedia
+
+  HOW TO USE THIS FILE:
+  1. Open GitHub Copilot Chat in VS Code
+  2. Paste ONE section at a time (start with Setup, then each file)
+  3. Tell Copilot: "Create this file exactly as shown"
+  4. Follow the SETUP COMMANDS at the bottom to run the app
+================================================================
+
+
+================================================================
+SECTION 0 — PROJECT OVERVIEW (read this first)
+================================================================
+
+Build a Streamlit web app called "Agentic Rate Change Intelligence
+& Customer Retention System" for a banking hackathon.
+
+The app has TWO tabs:
+- Tab 1: Rate Change Intelligence Dashboard
+  → User enters Fed rate change (e.g. 25 basis points)
+  → AI scores 500 loan customers on churn risk (0-100)
+  → Shows KPI cards, charts, ranked call list, download CSV
+  → Generates personalized AI retention offer per customer
+
+- Tab 2: SOP Intelligence Chatbot
+  → Multi-agent chatbot answering questions from Word SOP files
+  → 5 specialist agents: guidance, escalation, compliance, email, general
+  → Answers only from the bank's own SOP documents
+
+Tech stack:
+- Python + Streamlit (web UI)
+- Groq API with model: openai/gpt-oss-120b (free tier)
+- python-docx (read Word files)
+- pandas (data processing)
+- LLaMA 3.3 70B via Groq for all LLM calls
+
+Folder structure to create:
+agentic-sop-assistant/
+├── agents/
+│   ├── __init__.py
+│   ├── guardrails.py               ← v3.0: code-level safety layer
+│   ├── sop_retriever.py            ← v2.0: public RAG API
+│   ├── retrieval/                  ← v2.0: RAG pipeline
+│   │   ├── __init__.py
+│   │   ├── chunker.py
+│   │   ├── embedder.py
+│   │   ├── faiss_index.py
+│   │   ├── bm25_index.py
+│   │   ├── hybrid_search.py
+│   │   └── indexer.py
+│   ├── portfolio_risk_agent.py
+│   ├── retention_offer_agent.py
+│   ├── multi_sop_agent.py
+│   ├── router.py
+│   ├── guidance_agent.py
+│   ├── escalation_agent.py
+│   ├── compliance_agent.py
+│   ├── confidence_agent.py
+│   ├── email_agent.py
+│   └── sop_watcher.py
+├── chatbot/
+│   └── app.py
+├── scripts/
+│   ├── generate_portfolio.py
+│   └── create_sops.py
+├── data/               (created by scripts)
+├── requirements.txt
+└── README.md
+
+
+================================================================
+SECTION 1 — requirements.txt
+================================================================
+
+Create file: requirements.txt
+
+---FILE START---
+python-docx
+groq
+streamlit
+pandas
+---FILE END---
+
+
+================================================================
+SECTION 2 — agents/__init__.py
+================================================================
+
+Create file: agents/__init__.py
+
+---FILE START---
+# agents package
+---FILE END---
+
+
+================================================================
+SECTION 3 — agents/portfolio_risk_agent.py
+================================================================
+
+Create file: agents/portfolio_risk_agent.py
+
+---FILE START---
+"""
+portfolio_risk_agent.py
+-----------------------
+Scores every customer in the loan portfolio on churn risk
+after a Fed rate change.
+
+Churn risk is calculated from 5 factors:
+  1. Rate gap vs best competitor (bigger gap = higher risk)
+  2. Loan balance (higher balance = more incentive to refinance)
+  3. Months remaining (more months left = more savings possible)
+  4. FICO score (better credit = more options elsewhere)
+  5. Missed payments (delinquent customers can't easily refinance)
+
+Returns a DataFrame with ChurnRiskScore (0-100) and RiskCategory.
+"""
+
+import pandas as pd
+import os
+
+PORTFOLIO_FILE    = os.path.join("data", "loan_portfolio.csv")
+COMPETITOR_FILE   = os.path.join("data", "competitor_rates.csv")
+
+# How much each factor contributes to the total score (must sum to 100)
+WEIGHTS = {
+    "rate_gap":         35,   # biggest driver
+    "balance":          25,   # high balance = big savings from refinancing
+    "months_remaining": 20,   # more time left = more benefit
+    "fico":             15,   # better credit = more refi options
+    "payment_history":   5,   # missed payments reduce refi ability
+}
+
+
+def load_data():
+    portfolio   = pd.read_csv(PORTFOLIO_FILE)
+    competitors = pd.read_csv(COMPETITOR_FILE)
+    return portfolio, competitors
+
+
+def get_best_competitor_rate(competitors: pd.DataFrame, product: str, tier: str) -> float:
+    """Returns the lowest competitor rate for a given product + tier."""
+    mask = (competitors["Product"] == product) & (competitors["CreditTier"] == tier)
+    subset = competitors[mask]
+    if subset.empty:
+        return None
+    return subset["CompetitorRate"].min()
+
+
+def score_portfolio(rate_change_bps: float = 25) -> pd.DataFrame:
+    """
+    Main function. Takes the Fed rate change in basis points (e.g. 25 for +0.25%).
+    Returns the full portfolio DataFrame with churn scores added.
+    """
+    portfolio, competitors = load_data()
+
+    rate_change_pct = rate_change_bps / 100.0
+
+    # Apply rate change to current customer rates
+    # Business Banking = floating (moves with Fed immediately)
+    # Auto loans = fixed (existing loans unchanged)
+    portfolio["NewRate"] = portfolio.apply(
+        lambda r: round(max(r["CurrentRate"] + rate_change_pct, 1.0), 2)
+        if r["Product"] == "Business Banking"
+        else r["CurrentRate"],
+        axis=1
+    )
+
+    # For rate cuts, competitors also drop — reduce their rates too
+    if rate_change_bps < 0:
+        competitors = competitors.copy()
+        competitors["CompetitorRate"] = (
+            competitors["CompetitorRate"] + rate_change_pct
+        ).clip(lower=1.0).round(2)
+
+    scores = []
+
+    for _, row in portfolio.iterrows():
+        best_comp = get_best_competitor_rate(
+            competitors, row["Product"], row["CreditTier"]
+        )
+        if best_comp is None:
+            best_comp = row["NewRate"] - 0.25  # fallback: assume competitor is 0.25% lower
+
+        # Factor 1: Rate Gap
+        gap = row["NewRate"] - best_comp
+        gap_score = min(max(gap / 0.75 * 100, 0), 100)
+
+        # Factor 2: Loan Balance
+        balance_score = min(row["LoanBalance"] / 500_000 * 100, 100)
+
+        # Factor 3: Months Remaining
+        months_score = min(row["MonthsRemaining"] / 72 * 100, 100)
+
+        # Factor 4: FICO Score (scale 550-850 to 0-100)
+        fico_score = min(max((row["FICO"] - 550) / 300 * 100, 0), 100)
+
+        # Factor 5: Payment History (missed payments reduce churn risk)
+        payment_score = max(100 - row["MissedPayments"] * 50, 0)
+
+        # Weighted total
+        total = (
+            gap_score         * WEIGHTS["rate_gap"]         / 100 +
+            balance_score     * WEIGHTS["balance"]          / 100 +
+            months_score      * WEIGHTS["months_remaining"] / 100 +
+            fico_score        * WEIGHTS["fico"]             / 100 +
+            payment_score     * WEIGHTS["payment_history"]  / 100
+        )
+
+        scores.append({
+            "ChurnRiskScore":   round(total, 1),
+            "BestCompRate":     best_comp,
+            "RateGap":          round(row["NewRate"] - best_comp, 2),
+            "GapScore":         round(gap_score, 1),
+            "BalanceScore":     round(balance_score, 1),
+            "MonthsScore":      round(months_score, 1),
+            "FicoScore":        round(fico_score, 1),
+            "PaymentScore":     round(payment_score, 1),
+        })
+
+    score_df = pd.DataFrame(scores)
+    portfolio = pd.concat([portfolio.reset_index(drop=True), score_df], axis=1)
+
+    def categorise(score):
+        if score >= 70: return "🔴 High Risk"
+        if score >= 45: return "🟡 Medium Risk"
+        return "🟢 Low Risk"
+
+    portfolio["RiskCategory"] = portfolio["ChurnRiskScore"].apply(categorise)
+    portfolio = portfolio.sort_values("ChurnRiskScore", ascending=False).reset_index(drop=True)
+
+    return portfolio
+
+
+def get_summary(portfolio: pd.DataFrame) -> dict:
+    """Returns a summary dict for the dashboard."""
+    total      = len(portfolio)
+    high_risk  = len(portfolio[portfolio["RiskCategory"] == "🔴 High Risk"])
+    mid_risk   = len(portfolio[portfolio["RiskCategory"] == "🟡 Medium Risk"])
+    low_risk   = len(portfolio[portfolio["RiskCategory"] == "🟢 Low Risk"])
+
+    at_risk_balance = portfolio[
+        portfolio["RiskCategory"].isin(["🔴 High Risk", "🟡 Medium Risk"])
+    ]["LoanBalance"].sum()
+
+    high_risk_balance = portfolio[
+        portfolio["RiskCategory"] == "🔴 High Risk"
+    ]["LoanBalance"].sum()
+
+    return {
+        "total_customers":    total,
+        "high_risk":          high_risk,
+        "medium_risk":        mid_risk,
+        "low_risk":           low_risk,
+        "at_risk_balance":    round(at_risk_balance, 2),
+        "high_risk_balance":  round(high_risk_balance, 2),
+        "estimated_loss":     round(high_risk_balance * 0.40, 2),
+        "recoverable":        round(high_risk_balance * 0.40 * 0.50, 2),
+    }
+---FILE END---
+
+
+================================================================
+SECTION 4 — agents/retention_offer_agent.py
+================================================================
+
+Create file: agents/retention_offer_agent.py
+
+---FILE START---
+"""
+retention_offer_agent.py
+------------------------
+Generates a personalized retention offer for a high-risk customer
+using the SOP as the rulebook for what offers are allowed.
+"""
+
+MODEL = "openai/gpt-oss-120b"
+
+SYSTEM_PROMPT = """You are a Retention Offer Agent for a bank's lending operations team.
+Your job is to generate a personalized, SOP-compliant retention offer for a customer who is
+at risk of refinancing their loan with a competitor after a rate change.
+
+Rules:
+1. Offers must stay within the rate bands defined in the SOP rate tables.
+2. Any rate reduction below Tier 1 floor requires CLO approval — flag this clearly.
+3. Fee waivers are allowed up to $500 without approval; above that needs manager sign-off.
+4. Always include: a specific offer, talking points for the relationship manager, and urgency level.
+5. Keep the tone professional and customer-focused.
+6. Reference which SOP section supports your offer recommendation.
+
+Output format — always use this exact structure:
+
+RECOMMENDED OFFER:
+[specific offer — e.g. rate reduction to X%, fee waiver of $Y, loyalty bonus]
+
+TALKING POINTS FOR RM:
+• [point 1]
+• [point 2]
+• [point 3]
+
+URGENCY: [High / Medium / Low] — [one sentence reason]
+
+APPROVAL NEEDED: [Yes / No] — [who needs to approve if yes]
+
+SOP REFERENCE: [section name that supports this offer]
+"""
+
+def generate(customer: dict, churn_score: float, sop_text: str, client) -> str:
+    prompt = f"""Generate a retention offer for this customer:
+
+Customer: {customer.get('CustomerName', 'N/A')}
+Product: {customer.get('Product', 'N/A')}
+Credit Tier: {customer.get('CreditTier', 'N/A')}
+FICO Score: {customer.get('FICO', 'N/A')}
+Loan Balance: ${float(customer.get('LoanBalance', 0)):,.0f}
+Current Rate: {customer.get('CurrentRate', 'N/A')}%
+New Rate (post Fed change): {customer.get('NewRate', 'N/A')}%
+Best Competitor Rate: {customer.get('BestCompRate', 'N/A')}%
+Rate Gap vs Competitor: {customer.get('RateGap', 'N/A')}%
+Months Remaining: {customer.get('MonthsRemaining', 'N/A')}
+Churn Risk Score: {churn_score}/100
+Relationship Manager: {customer.get('RelationshipMgr', 'N/A')}
+State: {customer.get('State', 'N/A')}
+
+--- SOP CONTEXT ---
+{sop_text[:3000]}
+--- END SOP ---
+"""
+    response = client.chat.completions.create(
+        model=MODEL,
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user",   "content": prompt},
+        ],
+        max_tokens=600,
+        temperature=0.2,
+    )
+    return response.choices[0].message.content
+---FILE END---
+
+
+================================================================
+SECTION 5 — agents/router.py
+================================================================
+
+Create file: agents/router.py
+
+---FILE START---
+"""
+router.py
+---------
+Reads the user's question and decides which specialist
+agent should handle it.
+"""
+
+MODEL = "openai/gpt-oss-120b"
+
+ROUTER_PROMPT = """You are a routing assistant. Read the user's question and decide which specialist agent should answer it.
+
+Choose exactly ONE of these agents:
+- guidance    : questions about steps, process, what to do next, how to handle a situation, timelines, frequency
+- escalation  : questions about who to contact, who is responsible, escalation paths, contacts, emails, phone numbers
+- compliance  : questions about regulations, legal requirements, compliance rules, audit, ECOA, Reg Z, MLA, usury
+- email       : user wants to draft or write an email, message, or communication to someone
+- general     : any other SOP question
+
+Reply with ONLY the agent name. No explanation, no punctuation.
+"""
+
+def route(question: str, client) -> str:
+    response = client.chat.completions.create(
+        model=MODEL,
+        messages=[
+            {"role": "system", "content": ROUTER_PROMPT},
+            {"role": "user",   "content": question},
+        ],
+        max_tokens=10,
+        temperature=0.0,
+    )
+    agent = response.choices[0].message.content.strip().lower()
+    valid = {"guidance", "escalation", "compliance", "email", "general"}
+    return agent if agent in valid else "general"
+---FILE END---
+
+
+================================================================
+SECTION 6 — agents/multi_sop_agent.py
+================================================================
+
+Create file: agents/multi_sop_agent.py
+
+---FILE START---
+"""
+multi_sop_agent.py
+------------------
+Loads ALL SOP documents from the data/ folder.
+Identifies which SOP is most relevant to the question.
+Only asks a clarifying question if the query is extremely vague.
+"""
+
+import os
+from docx import Document
+from docx.oxml.ns import qn
+from docx.table import Table
+
+MODEL    = "openai/gpt-oss-120b"
+DATA_DIR = "data"
+
+
+def load_all_sops() -> dict:
+    sops = {}
+    if not os.path.exists(DATA_DIR):
+        return sops
+    for fname in os.listdir(DATA_DIR):
+        if fname.endswith(".docx"):
+            path = os.path.join(DATA_DIR, fname)
+            try:
+                sops[fname] = _extract(path)
+            except Exception as e:
+                print(f"[MultiSOP] Could not load {fname}: {e}")
+    return sops
+
+
+def _extract(filepath: str) -> str:
+    doc   = Document(filepath)
+    lines = []
+    for block in doc.element.body:
+        tag = block.tag.split("}")[-1]
+        if tag == "p":
+            text = "".join(
+                node.text or ""
+                for node in block.iter()
+                if node.tag == qn("w:t")
+            )
+            if text.strip():
+                lines.append(text.strip())
+        elif tag == "tbl":
+            tbl = Table(block, doc)
+            for row in tbl.rows:
+                cells = [c.text.strip() for c in row.cells if c.text.strip()]
+                if cells:
+                    lines.append(" | ".join(cells))
+            lines.append("")
+    return "\n".join(lines)
+
+
+def pick_sop(question: str, sop_names: list, client) -> str:
+    if len(sop_names) == 1:
+        return sop_names[0]
+
+    names_list = "\n".join(f"- {n}" for n in sop_names)
+    prompt = f"""You are a document router. Given a user question and a list of SOP filenames, pick the ONE most relevant document.
+Reply with ONLY the exact filename — nothing else.
+
+SOPs available:
+{names_list}
+
+Question: {question}
+"""
+    response = client.chat.completions.create(
+        model=MODEL,
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=60,
+        temperature=0.0,
+    )
+    chosen = response.choices[0].message.content.strip()
+    return chosen if chosen in sop_names else sop_names[0]
+
+
+def needs_clarification(question: str, client) -> tuple[bool, str]:
+    words = question.strip().split()
+    if len(words) >= 5:
+        return False, ""
+
+    clear_keywords = [
+        "email", "escalat", "rate", "loan", "wire", "ach", "kyc", "aml", "sar", "ctr",
+        "eod", "batch", "step", "process", "contact", "who", "what", "how", "when",
+        "approve", "compli", "regul", "ofac", "underwr", "disburse", "close"
+    ]
+    q_lower = question.lower()
+    if any(kw in q_lower for kw in clear_keywords):
+        return False, ""
+
+    prompt = """A user asked a very short question to a banking SOP chatbot.
+Is it too vague to answer without clarification?
+
+Reply CLARIFY: <one short question> if truly ambiguous.
+Reply CLEAR if there is enough context to attempt an answer.
+
+Rules:
+- If the question has any banking or process keyword, reply CLEAR.
+- Only reply CLARIFY for completely meaningless queries like single words with no context.
+"""
+    response = client.chat.completions.create(
+        model=MODEL,
+        messages=[
+            {"role": "system", "content": prompt},
+            {"role": "user",   "content": question},
+        ],
+        max_tokens=60,
+        temperature=0.0,
+    )
+    reply = response.choices[0].message.content.strip()
+    if reply.startswith("CLARIFY:"):
+        return True, reply[len("CLARIFY:"):].strip()
+    return False, ""
+
+
+def ask(question: str, history: list, sops: dict, client, category_filter: str = "All Categories") -> tuple[str, str]:
+    if not sops:
+        return "No SOP documents found in the data/ folder.", ""
+
+    sop_names  = list(sops.keys())
+    chosen_sop = pick_sop(question, sop_names, client)
+    sop_text   = sops[chosen_sop]
+
+    category_note = f"Focus on: {category_filter}." if category_filter != "All Categories" else ""
+
+    system = f"""You are an expert SOP assistant for a bank's operations team.
+Answer ONLY from the SOP document below. {category_note}
+Reference specific section names and step numbers when available.
+If the answer is not in the SOP, say so clearly — do not guess.
+
+--- SOP: {chosen_sop} ---
+{sop_text}
+--- END ---
+"""
+    messages = [{"role": "system", "content": system}]
+    messages += history
+    messages.append({"role": "user", "content": question})
+
+    response = client.chat.completions.create(
+        model=MODEL,
+        messages=messages,
+        max_tokens=1024,
+        temperature=0.1,
+    )
+    return response.choices[0].message.content, chosen_sop
+---FILE END---
+
+
+================================================================
+SECTION 7 — agents/guidance_agent.py
+================================================================
+
+Create file: agents/guidance_agent.py
+
+---FILE START---
+"""
+guidance_agent.py
+-----------------
+Answers questions about: next steps, how-to, process flow,
+task frequency, timelines, and what to do in specific situations.
+"""
+
+MODEL = "openai/gpt-oss-120b"
+
+def build_prompt(sop_text: str, category_filter: str) -> str:
+    category_note = (
+        f"The user is asking specifically about: {category_filter}. Focus your answer on that product category."
+        if category_filter != "All Categories"
+        else "Answer for all product categories unless the user specifies one."
+    )
+    return f"""You are a Task Guidance Agent for a bank's lending operations team.
+Your specialty: helping staff understand what steps to follow, what to do next, and how to handle specific situations — all based on the SOP.
+
+{category_note}
+
+Rules:
+1. Use ONLY the SOP document below. No outside knowledge.
+2. Reference specific step numbers (e.g., "Step 3 says...").
+3. If asking about frequency, give exact timelines from the SOP.
+4. If a situation is not in the SOP, say so clearly.
+5. Be direct and practical — the user needs to act quickly.
+
+--- SOP DOCUMENT ---
+{sop_text}
+--- END OF SOP ---
+"""
+
+def ask(question: str, history: list, sop_text: str, client, category_filter: str = "All Categories") -> str:
+    messages = [{"role": "system", "content": build_prompt(sop_text, category_filter)}]
+    messages += history
+    messages.append({"role": "user", "content": question})
+    response = client.chat.completions.create(
+        model=MODEL, messages=messages, max_tokens=1024, temperature=0.1,
+    )
+    return response.choices[0].message.content
+---FILE END---
+
+
+================================================================
+SECTION 8 — agents/escalation_agent.py
+================================================================
+
+Create file: agents/escalation_agent.py
+
+---FILE START---
+"""
+escalation_agent.py
+-------------------
+Answers questions about: who to contact, escalation paths,
+role ownership, and what to do when stuck.
+"""
+
+MODEL = "openai/gpt-oss-120b"
+
+def build_prompt(sop_text: str, category_filter: str) -> str:
+    category_note = (
+        f"The user is asking specifically about: {category_filter}. Focus on contacts and escalation paths for that product category."
+        if category_filter != "All Categories"
+        else "Cover escalation paths across all product categories."
+    )
+    return f"""You are an Escalation & Ownership Agent for a bank's lending operations team.
+Your specialty: telling staff exactly WHO to contact, HOW to escalate, and WHAT the escalation path looks like.
+
+{category_note}
+
+Rules:
+1. Use ONLY the SOP document below. No outside knowledge.
+2. Always include specific names, email addresses, and phone numbers from the SOP when available.
+3. Clearly state the escalation level (L1, L2, L3, etc.) when relevant.
+4. If the contact is not in the SOP, say so clearly.
+
+--- SOP DOCUMENT ---
+{sop_text}
+--- END OF SOP ---
+"""
+
+def ask(question: str, history: list, sop_text: str, client, category_filter: str = "All Categories") -> str:
+    messages = [{"role": "system", "content": build_prompt(sop_text, category_filter)}]
+    messages += history
+    messages.append({"role": "user", "content": question})
+    response = client.chat.completions.create(
+        model=MODEL, messages=messages, max_tokens=1024, temperature=0.1,
+    )
+    return response.choices[0].message.content
+---FILE END---
+
+
+================================================================
+SECTION 9 — agents/compliance_agent.py
+================================================================
+
+Create file: agents/compliance_agent.py
+
+---FILE START---
+"""
+compliance_agent.py
+-------------------
+Answers questions about: regulations, legal requirements,
+compliance rules, and audit requirements — based on the SOP.
+"""
+
+MODEL = "openai/gpt-oss-120b"
+
+def build_prompt(sop_text: str, category_filter: str) -> str:
+    category_note = (
+        f"The user is asking specifically about: {category_filter}. Focus on compliance requirements for that product category."
+        if category_filter != "All Categories"
+        else "Cover compliance requirements across all product categories."
+    )
+    return f"""You are a Compliance & Regulatory Agent for a bank's lending operations team.
+Your specialty: explaining which regulations apply and what the bank must do to stay compliant during rate changes.
+
+{category_note}
+
+Rules:
+1. Use ONLY the SOP document below. No outside knowledge.
+2. Always name the specific regulation (e.g., Reg Z, ECOA, MLA, state usury laws).
+3. State clearly what the requirement means in plain language.
+4. If a rate or action might violate a regulation, flag it clearly with ⚠️.
+5. If the compliance detail is not in the SOP, say so — do not guess.
+
+--- SOP DOCUMENT ---
+{sop_text}
+--- END OF SOP ---
+"""
+
+def ask(question: str, history: list, sop_text: str, client, category_filter: str = "All Categories") -> str:
+    messages = [{"role": "system", "content": build_prompt(sop_text, category_filter)}]
+    messages += history
+    messages.append({"role": "user", "content": question})
+    response = client.chat.completions.create(
+        model=MODEL, messages=messages, max_tokens=1024, temperature=0.1,
+    )
+    return response.choices[0].message.content
+---FILE END---
+
+
+================================================================
+SECTION 10 — agents/email_agent.py
+================================================================
+
+Create file: agents/email_agent.py
+
+---FILE START---
+"""
+email_agent.py
+--------------
+Drafts professional emails based on SOP context.
+"""
+
+MODEL = "openai/gpt-oss-120b"
+
+def build_prompt(sop_text: str, user_email: str) -> str:
+    return f"""You are an Email Drafting Agent for a bank's lending operations team.
+Draft professional, clear, and complete emails based on the user's request and the SOP document.
+
+The sender's email address is: {user_email}
+
+Rules:
+1. Use ONLY information from the SOP for contact details, process steps, and references.
+2. Always include: To, Subject, and a full email body.
+3. Keep the tone professional and concise.
+4. Reference specific SOP sections or steps where relevant.
+5. Format the output exactly like this:
+
+TO: [recipient email from SOP or as requested]
+CC: [if relevant, else leave blank]
+SUBJECT: [clear, specific subject line]
+
+Dear [Name],
+
+[Email body — clear, professional, complete]
+
+Best regards,
+[Sender name from email]
+[Sender email]
+
+--- SOP DOCUMENT ---
+{sop_text}
+--- END OF SOP ---
+"""
+
+def ask(request: str, history: list, sop_text: str, client, user_email: str) -> str:
+    messages = [{"role": "system", "content": build_prompt(sop_text, user_email)}]
+    messages += history
+    messages.append({"role": "user", "content": request})
+    response = client.chat.completions.create(
+        model=MODEL, messages=messages, max_tokens=1024, temperature=0.2,
+    )
+    return response.choices[0].message.content
+---FILE END---
+
+
+================================================================
+SECTION 11 — agents/confidence_agent.py
+================================================================
+
+Create file: agents/confidence_agent.py
+
+---FILE START---
+"""
+confidence_agent.py
+-------------------
+Rates how confident the answer is based on SOP coverage.
+Returns score 1-10 and a short reasoning note.
+"""
+
+import json
+MODEL = "openai/gpt-oss-120b"
+
+PROMPT = """You are a quality checker for an SOP-based AI assistant.
+Given a user question and the assistant's answer, rate how confident
+you are that the answer is accurate and fully sourced from the SOP.
+
+Return ONLY valid JSON in this exact format (no extra text):
+{
+  "score": <integer 1 to 10>,
+  "reasoning": "<one short sentence explaining the score>"
+}
+
+Scoring guide:
+10 — Answer is directly and completely found in the SOP
+8-9 — Answer is mostly in the SOP with minor inference
+6-7 — Answer is partially in the SOP; some gaps
+4-5 — Answer is loosely related to SOP content
+1-3 — Answer could not be properly sourced from the SOP
+"""
+
+def score(question: str, answer: str, client) -> dict:
+    try:
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=[
+                {"role": "system", "content": PROMPT},
+                {"role": "user",   "content": f"QUESTION: {question}\n\nANSWER: {answer}"},
+            ],
+            max_tokens=100,
+            temperature=0.0,
+        )
+        raw = response.choices[0].message.content.strip()
+        return json.loads(raw)
+    except Exception:
+        return {"score": 7, "reasoning": "Confidence check unavailable."}
+---FILE END---
+
+
+================================================================
+SECTION 12 — agents/sop_watcher.py
+================================================================
+
+Create file: agents/sop_watcher.py
+
+---FILE START---
+"""
+sop_watcher.py
+--------------
+Watches the SOP Word document for changes.
+If updated, automatically re-extracts text so the chatbot
+always uses the latest SOP content.
+"""
+
+import os
+
+SOP_DOCX = os.path.join("data", "SOP_Bank_Rate_Change_Process.docx")
+SOP_TXT  = os.path.join("data", "SOP_extracted.txt")
+
+
+def get_last_modified(filepath: str) -> float:
+    if os.path.exists(filepath):
+        return os.path.getmtime(filepath)
+    return 0.0
+
+
+def extract_sop(docx_path: str, txt_path: str):
+    from docx import Document
+    from docx.oxml.ns import qn
+    from docx.table import Table
+
+    doc = Document(docx_path)
+    lines = []
+    for block in doc.element.body:
+        tag = block.tag.split("}")[-1]
+        if tag == "p":
+            text = "".join(
+                node.text or ""
+                for node in block.iter()
+                if node.tag == qn("w:t")
+            )
+            if text.strip():
+                lines.append(text.strip())
+        elif tag == "tbl":
+            tbl = Table(block, doc)
+            for row in tbl.rows:
+                row_cells = [cell.text.strip() for cell in row.cells if cell.text.strip()]
+                if row_cells:
+                    lines.append(" | ".join(row_cells))
+            lines.append("")
+    text = "\n".join(lines)
+    with open(txt_path, "w", encoding="utf-8") as f:
+        f.write(text)
+    return text
+
+
+def check_and_reload(last_modified_time: float) -> tuple[float, str | None]:
+    current_modified = get_last_modified(SOP_DOCX)
+    if current_modified > last_modified_time:
+        new_text = extract_sop(SOP_DOCX, SOP_TXT)
+        return current_modified, new_text
+    return last_modified_time, None
+
+
+def load_sop_text() -> tuple[str, float]:
+    docx_mod = get_last_modified(SOP_DOCX)
+    txt_mod  = get_last_modified(SOP_TXT)
+    if not os.path.exists(SOP_TXT) or docx_mod > txt_mod:
+        text = extract_sop(SOP_DOCX, SOP_TXT)
+    else:
+        with open(SOP_TXT, "r", encoding="utf-8") as f:
+            text = f.read()
+    return text, docx_mod
+---FILE END---
+
+
+================================================================
+SECTION 13 — scripts/generate_portfolio.py
+================================================================
+
+Create file: scripts/generate_portfolio.py
+
+---FILE START---
+"""
+generate_portfolio.py
+---------------------
+Generates two CSV files:
+  data/loan_portfolio.csv     — 500 synthetic customer loan records
+  data/competitor_rates.csv   — competitor rate table (3 banks)
+
+Usage:
+    python scripts/generate_portfolio.py
+"""
+
+import csv
+import random
+import os
+from datetime import datetime, timedelta
+
+random.seed(42)
+os.makedirs("data", exist_ok=True)
+
+def rand_date(start_months_ago, end_months_ago):
+    days = random.randint(end_months_ago * 30, start_months_ago * 30)
+    return (datetime.today() - timedelta(days=days)).strftime("%Y-%m-%d")
+
+FIRST_NAMES = ["James","Maria","David","Linda","Robert","Patricia","Michael","Barbara",
+               "William","Jennifer","Richard","Susan","Joseph","Jessica","Thomas","Sarah",
+               "Charles","Karen","Christopher","Lisa","Priya","Raj","Aisha","Mohammed",
+               "Chen","Wei","Ana","Carlos","Fatima","Ivan","Yuki","Omar","Sofia","Luca"]
+
+LAST_NAMES  = ["Smith","Johnson","Williams","Brown","Jones","Garcia","Miller","Davis",
+               "Martinez","Wilson","Anderson","Taylor","Thomas","Hernandez","Moore",
+               "Patel","Nguyen","Kim","Chen","Singh","Sharma","Ali","Lopez","Scott",
+               "Green","Adams","Baker","Nelson","Carter","Mitchell","Perez","Roberts"]
+
+STATES = ["CA","TX","FL","NY","IL","PA","OH","GA","NC","MI","NJ","VA","WA","AZ","MA",
+          "TN","IN","MO","MD","WI","CO","MN","SC","AL","LA","KY","OR","OK","CT","IA"]
+
+def random_name():
+    return f"{random.choice(FIRST_NAMES)} {random.choice(LAST_NAMES)}"
+
+BANK_RATES = {
+    ("Indirect Auto", "Tier 1 - Super Prime"):  5.99,
+    ("Indirect Auto", "Tier 2 - Prime"):         6.74,
+    ("Indirect Auto", "Tier 3 - Near Prime"):    8.99,
+    ("Indirect Auto", "Tier 4 - Sub Prime"):    11.49,
+    ("Indirect Auto", "Tier 5 - Deep Sub"):     14.99,
+    ("Direct Auto",   "Tier 1 - Excellent"):     5.49,
+    ("Direct Auto",   "Tier 2 - Good"):          6.24,
+    ("Direct Auto",   "Tier 3 - Fair"):          8.74,
+    ("Direct Auto",   "Tier 4 - Poor"):         11.24,
+    ("Business Banking", "Prime Business"):     10.00,
+    ("Business Banking", "Standard Business"):  11.25,
+    ("Business Banking", "High Risk Business"): 13.50,
+}
+
+FICO_TIERS = {
+    "Indirect Auto": [
+        (750, 850, "Tier 1 - Super Prime"),
+        (700, 749, "Tier 2 - Prime"),
+        (650, 699, "Tier 3 - Near Prime"),
+        (600, 649, "Tier 4 - Sub Prime"),
+        (550, 599, "Tier 5 - Deep Sub"),
+    ],
+    "Direct Auto": [
+        (750, 850, "Tier 1 - Excellent"),
+        (700, 749, "Tier 2 - Good"),
+        (650, 699, "Tier 3 - Fair"),
+        (600, 649, "Tier 4 - Poor"),
+    ],
+    "Business Banking": [
+        (720, 850, "Prime Business"),
+        (650, 719, "Standard Business"),
+        (580, 649, "High Risk Business"),
+    ],
+}
+
+def get_tier(product, fico):
+    for low, high, tier in FICO_TIERS[product]:
+        if low <= fico <= high:
+            return tier
+    return FICO_TIERS[product][-1][2]
+
+def generate_portfolio(n=500):
+    rows = []
+    products = ["Indirect Auto", "Indirect Auto", "Direct Auto", "Business Banking"]
+    for i in range(1, n + 1):
+        product = random.choice(products)
+        if product in ("Indirect Auto", "Direct Auto"):
+            fico = random.randint(550, 820)
+            balance = round(random.uniform(5000, 65000), 2)
+            term_months = random.choice([36, 48, 60, 72])
+            months_remaining = random.randint(3, term_months - 1)
+        else:
+            fico = random.randint(580, 800)
+            balance = round(random.uniform(50000, 2000000), 2)
+            term_months = random.choice([60, 84, 120])
+            months_remaining = random.randint(6, term_months - 1)
+
+        tier = get_tier(product, fico)
+        current_rate = BANK_RATES.get((product, tier), 9.99)
+        current_rate = round(current_rate - random.uniform(0, 0.75), 2)
+        origination_date = rand_date(months_remaining + 1, months_remaining + 2)
+        last_payment = rand_date(1, 2)
+        missed_payments = random.choices([0, 0, 0, 1, 2], weights=[70, 10, 5, 10, 5])[0]
+
+        rows.append({
+            "CustomerID":       f"CUST-{i:05d}",
+            "CustomerName":     random_name(),
+            "Product":          product,
+            "CreditTier":       tier,
+            "FICO":             fico,
+            "LoanBalance":      balance,
+            "CurrentRate":      current_rate,
+            "LoanTermMonths":   term_months,
+            "MonthsRemaining":  months_remaining,
+            "OriginationDate":  origination_date,
+            "LastPaymentDate":  last_payment,
+            "MissedPayments":   missed_payments,
+            "State":            random.choice(STATES),
+            "RelationshipMgr":  random.choice(["Linda Cho","Marcus Webb","Anita Patel","James Okafor","Sarah Mitchell"]),
+        })
+    return rows
+
+def generate_competitor_rates():
+    rows = []
+    competitors = {
+        "Chase":          -0.35,
+        "Wells Fargo":    -0.20,
+        "Bank of America":-0.15,
+    }
+    for (product, tier), our_rate in BANK_RATES.items():
+        for bank, diff in competitors.items():
+            comp_rate = round(our_rate + diff + random.uniform(-0.10, 0.10), 2)
+            comp_rate = max(comp_rate, 3.0)
+            rows.append({
+                "Product":         product,
+                "CreditTier":      tier,
+                "OurCurrentRate":  our_rate,
+                "CompetitorBank":  bank,
+                "CompetitorRate":  comp_rate,
+                "RateGap":         round(our_rate - comp_rate, 2),
+            })
+    return rows
+
+def save_csv(rows, filepath):
+    if not rows:
+        return
+    with open(filepath, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=rows[0].keys())
+        writer.writeheader()
+        writer.writerows(rows)
+
+def main():
+    portfolio = generate_portfolio(500)
+    save_csv(portfolio, os.path.join("data", "loan_portfolio.csv"))
+    print(f"✅ loan_portfolio.csv — {len(portfolio)} customers")
+
+    competitor = generate_competitor_rates()
+    save_csv(competitor, os.path.join("data", "competitor_rates.csv"))
+    print(f"✅ competitor_rates.csv — {len(competitor)} rate entries")
+
+    total_balance = sum(r["LoanBalance"] for r in portfolio)
+    print(f"\n📊 Total loan balance: ${total_balance:,.0f}")
+
+if __name__ == "__main__":
+    main()
+---FILE END---
+
+
+================================================================
+SECTION 14 — scripts/create_sops.py
+================================================================
+
+Create file: scripts/create_sops.py
+
+---FILE START---
+"""
+create_sops.py
+--------------
+Generates 5 SOP Word documents in the data/ folder.
+
+Usage:
+    python scripts/create_sops.py
+"""
+
+import os
+from docx import Document
+from docx.shared import Pt, RGBColor
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+
+os.makedirs("data", exist_ok=True)
+
+def add_heading(doc, text, level=1):
+    h = doc.add_heading(text, level=level)
+    h.alignment = WD_ALIGN_PARAGRAPH.LEFT
+
+def add_para(doc, text):
+    doc.add_paragraph(text)
+
+def create_rate_change_sop():
+    doc = Document()
+    doc.add_heading("SOP: Bank Rate Change Process", 0)
+    add_para(doc, "Version: 3.2 | Effective Date: January 1, 2024 | Owner: Chief Lending Officer (CLO)")
+
+    add_heading(doc, "1. PURPOSE")
+    add_para(doc, "This SOP defines the process for implementing Fed rate changes across Indirect Auto, Direct Auto, and Business Banking loan products. It ensures regulatory compliance, timely customer notification, and system accuracy.")
+
+    add_heading(doc, "2. SCOPE")
+    add_para(doc, "Applies to: All rate changes driven by Federal Reserve decisions or internal ALCO decisions. Products covered: Indirect Auto Loans, Direct Auto Loans, Business Banking Lines of Credit.")
+
+    add_heading(doc, "3. APPROVAL AUTHORITY")
+    add_para(doc, "ALCO (Asset-Liability Committee) must approve all rate changes before implementation. CLO signs off on Tier 1 rate exceptions. Branch Managers may authorize fee waivers up to $500. Fee waivers above $500 require CLO approval.")
+
+    add_heading(doc, "4. RATE CHANGE PROCESS STEPS")
+    add_heading(doc, "Step 1: Rate Decision & Approval", level=2)
+    add_para(doc, "ALCO meets within 24 hours of Fed announcement. Rate sheet prepared by Treasury team. CLO signs final rate approval form (Form RC-01).")
+
+    add_heading(doc, "Step 2: System Update", level=2)
+    add_para(doc, "IT team updates core banking system (FiServ) by 6 PM on effective date. Rate tables updated for all three product categories. QA verification completed by Operations Supervisor.")
+
+    add_heading(doc, "Step 3: Dealer Notification (Indirect Auto)", level=2)
+    add_para(doc, "Dealer Relations team sends rate sheet to all active dealers by 8 AM on effective date. Dealers must acknowledge receipt within 4 hours. Non-responding dealers are flagged for follow-up call.")
+
+    add_heading(doc, "Step 4: Customer Notification", level=2)
+    add_para(doc, "Variable rate customers: written notice required 45 days before change (Reg Z). Business clients: personal call from Relationship Manager required. Fixed rate customers: informational notice only.")
+
+    add_heading(doc, "Step 5: Retention Actions", level=2)
+    add_para(doc, "Portfolio team runs churn risk analysis. High-risk customers (score 70+) receive priority outreach within 48 hours. Retention offers: rate reduction up to 0.50% without CLO approval; up to 1.0% with CLO approval. Fee waivers up to $500 without approval.")
+
+    add_heading(doc, "5. RATE TABLES")
+    table = doc.add_table(rows=1, cols=3)
+    table.style = "Table Grid"
+    hdr = table.rows[0].cells
+    hdr[0].text = "Product / Tier"
+    hdr[1].text = "Current Rate"
+    hdr[2].text = "Rate Floor"
+    rates = [
+        ("Indirect Auto - Tier 1 Super Prime", "5.99%", "4.99%"),
+        ("Indirect Auto - Tier 2 Prime", "6.74%", "5.74%"),
+        ("Indirect Auto - Tier 3 Near Prime", "8.99%", "7.99%"),
+        ("Indirect Auto - Tier 4 Sub Prime", "11.49%", "10.49%"),
+        ("Direct Auto - Tier 1 Excellent", "5.49%", "4.49%"),
+        ("Direct Auto - Tier 2 Good", "6.24%", "5.24%"),
+        ("Business Banking - Prime", "10.00%", "8.50%"),
+        ("Business Banking - Standard", "11.25%", "9.75%"),
+    ]
+    for r in rates:
+        row = table.add_row().cells
+        row[0].text, row[1].text, row[2].text = r
+
+    add_heading(doc, "6. COMPLIANCE REQUIREMENTS")
+    add_para(doc, "Regulation Z (Truth in Lending): Requires 45-day advance notice for variable rate changes on consumer loans. Annual Percentage Rate (APR) must be recalculated and disclosed for any rate change.")
+    add_para(doc, "ECOA (Equal Credit Opportunity Act): Rate changes must be applied consistently across all borrowers in the same credit tier. Any tier-based exception requires documented business justification.")
+    add_para(doc, "Military Lending Act (MLA): Rate cap of 36% MAPR for covered military borrowers. Rate changes cannot exceed this cap regardless of tier.")
+    add_para(doc, "State Usury Laws: Rates must comply with state-specific usury caps. California cap: 29.99% for auto loans. New York cap: 16% for consumer loans.")
+
+    add_heading(doc, "7. ESCALATION CONTACTS")
+    add_para(doc, "Operations Supervisor: Sarah Mitchell | sarah.mitchell@bank.com | (555) 201-4400")
+    add_para(doc, "Chief Lending Officer (CLO): Marcus Webb | marcus.webb@bank.com | (555) 201-4401")
+    add_para(doc, "IT Core Banking Lead: Linda Cho | linda.cho@bank.com | (555) 201-4402")
+    add_para(doc, "Dealer Relations Manager: James Okafor | james.okafor@bank.com | (555) 201-4403")
+    add_para(doc, "Compliance Officer: Anita Patel | anita.patel@bank.com | (555) 201-4404")
+
+    add_heading(doc, "8. WHAT TO DO IF STUCK")
+    add_para(doc, "L1 — System not updated by 6 PM: Call Linda Cho immediately. Escalate to CLO if no response in 30 minutes.")
+    add_para(doc, "L2 — Dealer not acknowledging: Escalate to James Okafor after 4 hours. Document all contact attempts.")
+    add_para(doc, "L3 — Customer threatening legal action: Escalate immediately to Anita Patel (Compliance) and Marcus Webb (CLO).")
+    add_para(doc, "L4 — Regulatory inquiry received: Do NOT respond directly. Forward to Anita Patel within 1 hour.")
+
+    add_heading(doc, "9. DOCUMENT RETENTION")
+    add_para(doc, "All rate change approval forms (RC-01): 7 years. Customer notification records: 7 years. Dealer acknowledgment records: 5 years. Churn risk analysis reports: 3 years.")
+
+    doc.save(os.path.join("data", "SOP_Bank_Rate_Change_Process.docx"))
+    print("✅ SOP_Bank_Rate_Change_Process.docx created")
+
+def create_loan_origination_sop():
+    doc = Document()
+    doc.add_heading("SOP: Loan Origination & Underwriting", 0)
+    add_para(doc, "Version: 2.1 | Effective: March 2024 | Owner: Underwriting Manager")
+    add_heading(doc, "1. PURPOSE")
+    add_para(doc, "Defines the end-to-end process for originating and underwriting Indirect Auto, Direct Auto, and Business Banking loans.")
+    add_heading(doc, "2. CREDIT TIERS")
+    table = doc.add_table(rows=1, cols=4)
+    table.style = "Table Grid"
+    hdr = table.rows[0].cells
+    hdr[0].text = "Product"
+    hdr[1].text = "Tier"
+    hdr[2].text = "FICO Range"
+    hdr[3].text = "Max DTI"
+    tiers = [
+        ("Indirect Auto","Tier 1 - Super Prime","750-850","40%"),
+        ("Indirect Auto","Tier 2 - Prime","700-749","43%"),
+        ("Indirect Auto","Tier 3 - Near Prime","650-699","45%"),
+        ("Indirect Auto","Tier 4 - Sub Prime","600-649","50%"),
+        ("Direct Auto","Tier 1 - Excellent","750-850","38%"),
+        ("Direct Auto","Tier 2 - Good","700-749","42%"),
+        ("Business Banking","Prime","720+","N/A - Cash Flow Based"),
+    ]
+    for t in tiers:
+        r = table.add_row().cells
+        r[0].text, r[1].text, r[2].text, r[3].text = t
+    add_heading(doc, "3. UNDERWRITING STEPS")
+    add_para(doc, "Step 1: Application received and triaged by loan processor. Step 2: Credit pull and FICO verification. Step 3: Income/employment verification. Step 4: Collateral appraisal (auto: NADA value). Step 5: Underwriter decision: Approve/Deny/Counter. Step 6: Adverse action notice if denied (ECOA compliance). Step 7: Loan documents prepared and signed. Step 8: Funds disbursed to dealer or borrower.")
+    add_heading(doc, "4. ESCALATION")
+    add_para(doc, "Loan exceptions above $500,000: Senior Underwriter approval required. Exceptions to credit policy: Underwriting Manager (Raj Sharma, raj.sharma@bank.com). Second-look requests: Available within 30 days of denial.")
+    doc.save(os.path.join("data", "SOP_Loan_Origination_Underwriting.docx"))
+    print("✅ SOP_Loan_Origination_Underwriting.docx created")
+
+def create_wire_ach_sop():
+    doc = Document()
+    doc.add_heading("SOP: Wire & ACH Payment Processing", 0)
+    add_para(doc, "Version: 1.8 | Effective: June 2024 | Owner: Payments Operations Manager")
+    add_heading(doc, "1. PURPOSE")
+    add_para(doc, "Defines processing standards for outbound wire transfers and ACH payments related to loan disbursements and rate change refunds.")
+    add_heading(doc, "2. WIRE TRANSFER LIMITS")
+    add_para(doc, "Domestic wires under $50,000: Single approver (Payments Supervisor). Domestic wires $50,000-$500,000: Dual approval required. Domestic wires over $500,000: CFO approval required. International wires: OFAC screening mandatory regardless of amount.")
+    add_heading(doc, "3. ACH PROCESSING")
+    add_para(doc, "Loan payment ACH files submitted by 3 PM EST for same-day settlement. Rate change refund ACHs processed within 2 business days of rate change effective date. Failed ACH returns handled by Operations team within 24 hours.")
+    add_heading(doc, "4. ESCALATION")
+    add_para(doc, "Wire failure: Contact Payments Supervisor Wei Chen (wei.chen@bank.com) immediately. OFAC alert: Freeze transaction and contact Compliance Officer Anita Patel within 15 minutes. ACH return rate above 0.5%: Escalate to Payments Operations Manager.")
+    doc.save(os.path.join("data", "SOP_Wire_ACH_Payment_Processing.docx"))
+    print("✅ SOP_Wire_ACH_Payment_Processing.docx created")
+
+def create_kyc_aml_sop():
+    doc = Document()
+    doc.add_heading("SOP: KYC & AML Compliance", 0)
+    add_para(doc, "Version: 4.0 | Effective: January 2024 | Owner: BSA/AML Officer")
+    add_heading(doc, "1. PURPOSE")
+    add_para(doc, "Establishes Know Your Customer (KYC) and Anti-Money Laundering (AML) requirements for all lending products.")
+    add_heading(doc, "2. KYC REQUIREMENTS")
+    add_para(doc, "All new borrowers must provide: Government-issued photo ID, Social Security Number or ITIN, Proof of address (utility bill or bank statement within 90 days), Employment verification for consumer loans.")
+    add_heading(doc, "3. AML MONITORING")
+    add_para(doc, "Currency Transaction Reports (CTR): Required for cash transactions over $10,000. Suspicious Activity Reports (SAR): Filed within 30 days of detecting suspicious activity. OFAC screening: Required for all new loan originations and at each rate change event for business clients.")
+    add_heading(doc, "4. RED FLAGS FOR RATE CHANGE EVENTS")
+    add_para(doc, "Business client requesting rate change within 90 days of account opening. Unusual payoff requests timed with competitor rate announcements. Multiple accounts requesting simultaneous rate reductions.")
+    add_heading(doc, "5. ESCALATION")
+    add_para(doc, "SAR filing: BSA Officer Fatima Ali (fatima.ali@bank.com) | (555) 201-4410. OFAC match: Freeze account immediately, contact Fatima Ali within 15 minutes. Regulatory exam request: Forward to General Counsel within 1 hour.")
+    doc.save(os.path.join("data", "SOP_KYC_AML_Compliance.docx"))
+    print("✅ SOP_KYC_AML_Compliance.docx created")
+
+def create_eod_sop():
+    doc = Document()
+    doc.add_heading("SOP: Core Banking EOD Processing", 0)
+    add_para(doc, "Version: 2.5 | Effective: April 2024 | Owner: Core Banking Operations Lead")
+    add_heading(doc, "1. PURPOSE")
+    add_para(doc, "Defines end-of-day (EOD) processing procedures for the core banking system, including rate change batch updates.")
+    add_heading(doc, "2. EOD CHECKLIST")
+    add_para(doc, "Step 1 (4:00 PM): Close loan origination queue. Step 2 (4:30 PM): Run rate change batch if applicable — applies new rates to all affected accounts. Step 3 (5:00 PM): Generate daily exception report. Step 4 (5:30 PM): Reconcile loan payment ACH file. Step 5 (6:00 PM): Trigger nightly batch and confirm completion. Step 6 (7:00 PM): Operations Supervisor reviews batch completion report.")
+    add_heading(doc, "3. RATE CHANGE BATCH")
+    add_para(doc, "On rate change effective date: Rate change batch runs at 4:30 PM EST. All Business Banking floating rate accounts updated automatically. Fixed rate accounts not touched. Batch log reviewed by Linda Cho before 6:00 PM. Any failed updates escalated to IT on-call team.")
+    add_heading(doc, "4. ESCALATION")
+    add_para(doc, "Batch failure: IT On-Call: (555) 201-9999 (24/7). Core system outage: Linda Cho (linda.cho@bank.com) | (555) 201-4402. Data reconciliation failure: Escalate to Operations Supervisor Sarah Mitchell immediately.")
+    doc.save(os.path.join("data", "SOP_Core_Banking_EOD_Processing.docx"))
+    print("✅ SOP_Core_Banking_EOD_Processing.docx created")
+
+if __name__ == "__main__":
+    create_rate_change_sop()
+    create_loan_origination_sop()
+    create_wire_ach_sop()
+    create_kyc_aml_sop()
+    create_eod_sop()
+    print("\n✅ All 5 SOP documents created in data/ folder")
+---FILE END---
+
+
+================================================================
+SECTION 15 — chatbot/app.py  (MAIN APP — LARGEST FILE)
+================================================================
+
+Create file: chatbot/app.py
+
+---FILE START---
+"""
+app.py  (v4 — Rate Change Intelligence + SOP Assistant)
+--------------------------------------------------------
+Tab 1: Rate Change Intelligence Dashboard
+Tab 2: SOP Intelligence Chatbot
+
+Usage:
+    streamlit run chatbot/app.py
+"""
+
+import os
+import sys
+import streamlit as st
+import pandas as pd
+from groq import Groq
+
+sys.path.append(os.path.abspath("."))
+
+from agents import router, guidance_agent, escalation_agent, compliance_agent
+from agents import confidence_agent, email_agent, multi_sop_agent
+from agents import portfolio_risk_agent, retention_offer_agent
+from agents.sop_watcher import load_sop_text, check_and_reload
+
+MODEL = "openai/gpt-oss-120b"
+
+AGENT_INFO = {
+    "guidance":   {"label": "📋 Task Guidance Agent",          "color": "#1f77b4"},
+    "escalation": {"label": "📞 Escalation & Ownership Agent", "color": "#d62728"},
+    "compliance": {"label": "⚖️ Compliance Agent",             "color": "#2ca02c"},
+    "email":      {"label": "✉️ Email Drafting Agent",          "color": "#9467bd"},
+    "general":    {"label": "🤖 SOP General Agent",            "color": "#7f7f7f"},
+}
+
+st.set_page_config(
+    page_title="EXL Banking AI — Rate Change Intelligence",
+    page_icon="🏦",
+    layout="wide"
+)
+
+st.markdown("""
+<div style='background: linear-gradient(90deg, #003087 0%, #0057B8 100%);
+     padding: 12px 24px; border-radius: 8px; margin-bottom: 16px;
+     display: flex; align-items: center; justify-content: space-between;'>
+  <div>
+    <span style='color: white; font-size: 1.4em; font-weight: 800;
+          letter-spacing: 2px;'>EXL</span>
+    <span style='color: #90CAF9; font-size: 0.9em; margin-left: 12px;'>
+          Analytics · AI · Operations</span>
+  </div>
+  <div style='color: #90CAF9; font-size: 0.85em;'>
+    🏦 Banking Client Solution &nbsp;|&nbsp; EXL Hackathon 2026
+  </div>
+</div>
+""", unsafe_allow_html=True)
+
+@st.cache_resource
+def get_client():
+    api_key = os.environ.get("GROQ_API_KEY")
+    if not api_key:
+        st.error("GROQ_API_KEY not set. Run: $env:GROQ_API_KEY='your-key'")
+        st.stop()
+    return Groq(api_key=api_key)
+
+client = get_client()
+
+@st.cache_resource
+def get_all_sops():
+    return multi_sop_agent.load_all_sops()
+
+all_sops = get_all_sops()
+
+if "sop_text" not in st.session_state or "sop_last_modified" not in st.session_state:
+    sop_text, last_mod = load_sop_text()
+    st.session_state.sop_text          = sop_text
+    st.session_state.sop_last_modified = last_mod
+else:
+    new_mod, new_text = check_and_reload(st.session_state.sop_last_modified)
+    if new_text:
+        st.session_state.sop_text          = new_text
+        st.session_state.sop_last_modified = new_mod
+        st.cache_resource.clear()
+        st.toast("📄 SOP updated and reloaded!", icon="🔄")
+
+sop_text = st.session_state.sop_text
+
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+tab1, tab2 = st.tabs([
+    "📊 Rate Change Intelligence",
+    "🤖 SOP Assistant"
+])
+
+
+# ══════════════════════════════════════════════════════════════════════
+# TAB 1 — RATE CHANGE INTELLIGENCE DASHBOARD
+# ══════════════════════════════════════════════════════════════════════
+with tab1:
+    st.title("📊 Rate Change Intelligence & Customer Retention")
+    st.caption("Powered by EXL Agentic AI · Identifies at-risk customers before they leave")
+    st.divider()
+
+    col_in1, col_in2, col_in3 = st.columns([1, 1, 1])
+    with col_in1:
+        rate_change_bps = st.number_input(
+            "Fed Rate Change (basis points)",
+            min_value=-100, max_value=100, value=25, step=25,
+            help="25 bps = +0.25%. Enter negative for a rate cut."
+        )
+    with col_in2:
+        effective_date = st.date_input("Effective Date")
+    with col_in3:
+        st.write("")
+        st.write("")
+        run_analysis = st.button("🚀 Run Churn Analysis", use_container_width=True, type="primary")
+
+    st.divider()
+
+    if run_analysis or "portfolio_scored" in st.session_state:
+
+        if run_analysis:
+            with st.spinner("Scanning 500 customer loan records..."):
+                scored = portfolio_risk_agent.score_portfolio(rate_change_bps)
+                summary = portfolio_risk_agent.get_summary(scored)
+                st.session_state.portfolio_scored = scored
+                st.session_state.portfolio_summary = summary
+                st.session_state.rate_change_bps = rate_change_bps
+
+        scored  = st.session_state.portfolio_scored
+        summary = st.session_state.portfolio_summary
+        bps     = st.session_state.rate_change_bps
+
+        st.subheader(f"Portfolio Impact — Fed Rate {'↑' if bps > 0 else '↓'} {abs(bps)}bps ({abs(bps/100):.2f}%)")
+
+        k1, k2, k3, k4, k5 = st.columns(5)
+        k1.metric("Total Customers",   f"{summary['total_customers']:,}")
+        k2.metric("🔴 High Risk",       f"{summary['high_risk']:,}",
+                  f"{summary['high_risk']/summary['total_customers']*100:.0f}% of portfolio")
+        k3.metric("🟡 Medium Risk",     f"{summary['medium_risk']:,}")
+        k4.metric("💰 At-Risk Balance", f"${summary['at_risk_balance']/1e6:.1f}M")
+        k5.metric("⚠️ Est. Loss if No Action", f"${summary['estimated_loss']/1e6:.1f}M",
+                  f"Recoverable: ${summary['recoverable']/1e6:.1f}M",
+                  delta_color="inverse")
+
+        st.divider()
+
+        ch1, ch2 = st.columns(2)
+        with ch1:
+            st.subheader("Risk Distribution by Product")
+            risk_product = scored.groupby(["Product", "RiskCategory"]).size().reset_index(name="Count")
+            pivot = risk_product.pivot(index="Product", columns="RiskCategory", values="Count").fillna(0)
+            st.bar_chart(pivot)
+
+        with ch2:
+            st.subheader("Churn Risk Score Distribution")
+            bins = pd.cut(scored["ChurnRiskScore"], bins=[0,30,50,70,100],
+                         labels=["Low (0-30)", "Medium (30-50)", "Medium-High (50-70)", "High (70-100)"])
+            dist = bins.value_counts().sort_index()
+            st.bar_chart(dist)
+
+        st.divider()
+
+        st.subheader("🔴 Top At-Risk Customers — Priority Call List")
+
+        col_f1, col_f2 = st.columns([1, 1])
+        with col_f1:
+            product_filter = st.selectbox(
+                "Filter by Product",
+                ["All Products", "Indirect Auto", "Direct Auto", "Business Banking"]
+            )
+        with col_f2:
+            risk_filter = st.selectbox(
+                "Filter by Risk",
+                ["High Risk Only", "High + Medium Risk", "All Customers"]
+            )
+
+        display = scored.copy()
+        if product_filter != "All Products":
+            display = display[display["Product"] == product_filter]
+        if risk_filter == "High Risk Only":
+            display = display[display["RiskCategory"] == "🔴 High Risk"]
+        elif risk_filter == "High + Medium Risk":
+            display = display[display["RiskCategory"].isin(["🔴 High Risk", "🟡 Medium Risk"])]
+
+        display_cols = ["CustomerID", "CustomerName", "Product", "CreditTier",
+                       "LoanBalance", "CurrentRate", "NewRate", "BestCompRate",
+                       "RateGap", "ChurnRiskScore", "RiskCategory", "RelationshipMgr"]
+
+        display_show = display[display_cols].head(50).copy()
+        display_show["LoanBalance"] = display_show["LoanBalance"].apply(lambda x: f"${x:,.0f}")
+        display_show["CurrentRate"] = display_show["CurrentRate"].apply(lambda x: f"{x}%")
+        display_show["NewRate"]     = display_show["NewRate"].apply(lambda x: f"{x}%")
+        display_show["BestCompRate"]= display_show["BestCompRate"].apply(lambda x: f"{x}%")
+        display_show["RateGap"]     = display_show["RateGap"].apply(lambda x: f"{x}%")
+
+        st.dataframe(display_show, use_container_width=True, height=350)
+
+        csv_data = display[display_cols].to_csv(index=False)
+        st.download_button(
+            "📥 Download Call List (CSV)",
+            data=csv_data,
+            file_name=f"retention_call_list_{effective_date}.csv",
+            mime="text/csv"
+        )
+
+        st.divider()
+
+        st.subheader("🎯 Generate Personalized Retention Offer")
+
+        high_risk_customers = scored[scored["RiskCategory"] == "🔴 High Risk"]["CustomerName"].tolist()
+        if not high_risk_customers:
+            high_risk_customers = scored["CustomerName"].head(20).tolist()
+
+        selected_customer = st.selectbox(
+            "Select a customer to generate retention offer:",
+            high_risk_customers[:30]
+        )
+
+        if st.button("🤖 Generate Retention Offer", type="primary"):
+            customer_row = scored[scored["CustomerName"] == selected_customer].iloc[0]
+            customer_dict = customer_row.to_dict()
+
+            col_detail, col_offer = st.columns([1, 1])
+
+            with col_detail:
+                st.markdown("**Customer Profile**")
+                st.markdown(f"""
+| Field | Value |
+|---|---|
+| **Name** | {customer_dict['CustomerName']} |
+| **Product** | {customer_dict['Product']} |
+| **Credit Tier** | {customer_dict['CreditTier']} |
+| **FICO** | {customer_dict['FICO']} |
+| **Loan Balance** | ${float(customer_dict['LoanBalance']):,.0f} |
+| **Current Rate** | {customer_dict['CurrentRate']}% |
+| **New Rate** | {customer_dict['NewRate']}% |
+| **Best Competitor** | {customer_dict['BestCompRate']}% |
+| **Rate Gap** | {customer_dict['RateGap']}% |
+| **Months Remaining** | {customer_dict['MonthsRemaining']} |
+| **Churn Risk** | {customer_dict['ChurnRiskScore']}/100 |
+| **Relationship Mgr** | {customer_dict['RelationshipMgr']} |
+""")
+
+            with col_offer:
+                with st.spinner("AI generating personalized retention offer..."):
+                    offer = retention_offer_agent.generate(
+                        customer_dict,
+                        customer_dict["ChurnRiskScore"],
+                        sop_text,
+                        client
+                    )
+                st.markdown("**AI-Generated Retention Offer**")
+                st.markdown(
+                    f"<div style='background:#f8f9fa; padding:15px; border-radius:8px; "
+                    f"border-left:4px solid #1f77b4;'>{offer.replace(chr(10), '<br>')}</div>",
+                    unsafe_allow_html=True
+                )
+
+    else:
+        st.info("👆 Enter a rate change above and click **Run Churn Analysis** to scan the portfolio.")
+        col_a, col_b, col_c = st.columns(3)
+        col_a.metric("Portfolio Size", "500 customers", "Ready to scan")
+        col_b.metric("Total Loan Balance", "$132M", "Across 3 products")
+        col_c.metric("Potential Loss per Cycle", "Up to $15M", "Without intervention", delta_color="inverse")
+
+
+# ══════════════════════════════════════════════════════════════════════
+# TAB 2 — SOP ASSISTANT CHATBOT
+# ══════════════════════════════════════════════════════════════════════
+with tab2:
+    st.title("🤖 SOP Intelligence Assistant")
+    st.caption("Answers sourced only from SOP documents · Multi-Agent AI")
+    st.divider()
+
+    ctrl1, ctrl2, ctrl3 = st.columns([2, 1, 1])
+    with ctrl1:
+        user_email = st.text_input("📧 Your email (for email drafts)", placeholder="you@bank.com")
+    with ctrl2:
+        category = st.selectbox("📂 Product Category",
+            ["All Categories", "Indirect Auto", "Direct Auto", "Business Banking"])
+    with ctrl3:
+        st.write("")
+        if st.button("🗑️ Clear chat"):
+            st.session_state.messages = []
+            st.rerun()
+
+    st.divider()
+
+    with st.expander("💡 Sample questions — click to ask"):
+        samples = {
+            "📋 Process":     ["What is the first step in the rate change process?",
+                               "How do I notify dealers for Indirect Auto?",
+                               "What happens after ALCO approves a rate change?"],
+            "📞 Escalation":  ["Who approves rate changes?",
+                               "What do I do if the core system is not updated on time?",
+                               "Who do I contact if a business client disputes a rate change?"],
+            "⚖️ Compliance":  ["What compliance regulations apply to Direct Auto?",
+                               "What is the MLA rate cap?",
+                               "How long must rate change documents be retained?"],
+            "✉️ Email":        ["Write an email to notify a dealer about the rate update",
+                               "Draft an escalation email to IT about a core system issue"],
+        }
+        cols = st.columns(4)
+        for idx, (group, questions) in enumerate(samples.items()):
+            with cols[idx]:
+                st.markdown(f"**{group}**")
+                for q in questions:
+                    if st.button(q, key=f"smp_{q}", use_container_width=True):
+                        st.session_state.pending_question = q
+
+    st.divider()
+
+    if "pending_question" in st.session_state:
+        prompt = st.session_state.pop("pending_question")
+    else:
+        prompt = st.chat_input("Ask anything about the Bank SOPs...")
+
+    if prompt:
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        agent_name = router.route(prompt, client)
+
+        history = [
+            {"role": m["role"], "content": m["content"]}
+            for m in st.session_state.messages[:-1]
+        ]
+
+        needs_clarify, clarify_q = False, ""
+        if agent_name == "general":
+            needs_clarify, clarify_q = multi_sop_agent.needs_clarification(prompt, client)
+
+        if needs_clarify:
+            st.session_state.messages.append({
+                "role": "assistant", "content": f"🤔 {clarify_q}",
+                "agent": "general", "is_clarification": True,
+                "sop_used": "", "confidence": None,
+            })
+        else:
+            try:
+                sop_used = list(all_sops.keys())[0] if all_sops else ""
+                if agent_name == "email":
+                    email_addr = user_email or "staff@bank.com"
+                    _, sop_used = multi_sop_agent.ask(prompt, [], all_sops, client, category)
+                    email_sop  = all_sops.get(sop_used, sop_text)
+                    answer = email_agent.ask(prompt, history, email_sop, client, email_addr)
+                    conf   = None
+                else:
+                    answer, sop_used = multi_sop_agent.ask(prompt, history, all_sops, client, category)
+                    conf = confidence_agent.score(prompt, answer, client)
+
+                st.session_state.messages.append({
+                    "role": "assistant", "content": answer,
+                    "agent": agent_name, "is_clarification": False,
+                    "sop_used": sop_used, "confidence": conf,
+                })
+            except Exception as e:
+                st.session_state.messages.append({
+                    "role": "assistant", "content": f"❌ Error: {e}",
+                    "agent": "general", "is_clarification": False,
+                    "sop_used": "", "confidence": None,
+                })
+
+    for msg in st.session_state.messages:
+        if msg["role"] == "user":
+            with st.chat_message("user"):
+                st.markdown(msg["content"])
+        else:
+            with st.chat_message("assistant"):
+                agent_name = msg.get("agent", "general")
+                info = AGENT_INFO.get(agent_name, AGENT_INFO["general"])
+                if not msg.get("is_clarification"):
+                    st.markdown(
+                        f"<small style='color:{info['color']}'>{info['label']}</small>",
+                        unsafe_allow_html=True
+                    )
+                st.markdown(msg["content"])
+                sop_used = msg.get("sop_used", "")
+                if sop_used and not msg.get("is_clarification"):
+                    st.markdown(
+                        f"<div style='margin-top:6px;font-size:0.78em;color:#666;'>"
+                        f"📄 <b>Source:</b> {sop_used}</div>",
+                        unsafe_allow_html=True
+                    )
+                conf = msg.get("confidence")
+                if conf and not msg.get("is_clarification"):
+                    score = conf["score"]
+                    color = "#2ca02c" if score >= 8 else "#ff7f0e" if score >= 5 else "#d62728"
+                    label = "High" if score >= 8 else "Medium" if score >= 5 else "Low"
+                    st.markdown(
+                        f"<div style='margin-top:6px;padding:5px 10px;background:#f0f2f6;"
+                        f"border-radius:6px;font-size:0.8em;'>"
+                        f"<b>Confidence:</b> <span style='color:{color};font-weight:bold;'>"
+                        f"{label} ({score}/10)</span> — {conf['reasoning']}</div>",
+                        unsafe_allow_html=True
+                    )
+---FILE END---
+
+
+================================================================
+SETUP COMMANDS — Run these in PowerShell after creating all files
+================================================================
+
+STEP 1: Install dependencies
+  pip install python-docx groq streamlit pandas
+
+STEP 2: Go to project root
+  cd path\to\agentic-sop-assistant
+
+STEP 3: Generate SOP documents
+  python scripts/create_sops.py
+
+STEP 4: Generate loan portfolio CSV data
+  python scripts/generate_portfolio.py
+
+STEP 5: Set your Groq API key (get free key at console.groq.com)
+  $env:GROQ_API_KEY = "gsk_your_key_here"
+
+STEP 6: Run the app
+  python -m streamlit run chatbot/app.py
+
+STEP 7: Open in browser
+  http://localhost:8501
+
+================================================================
+SECTION 16 — agents/guardrails.py  (v3.0 — NEW FILE)
+================================================================
+
+Create file: agents/guardrails.py
+Content:
+
+"""
+guardrails.py — v3.0
+--------------------
+Code-level safety enforcement. No LLM involvement.
+
+All checks are deterministic, regex/rule-based, and run independently of
+whatever the LLM decides to output. Cannot be bypassed by prompt engineering.
+
+USAGE:
+    from agents.guardrails import check_input, check_output
+
+    # INPUT — call before routing or LLM
+    result = check_input(user_text)
+    if not result.safe:
+        return result.user_message, []   # do not proceed to LLM
+
+    # OUTPUT — call before returning answer to UI
+    result = check_output(llm_answer, retrieval_confidence=0.87)
+    final_answer = result.text           # use this, not the raw LLM output
+"""
+
+from __future__ import annotations
+
+import re
+from dataclasses import dataclass, field
+
+MAX_INPUT_CHARS  = 2000
+MAX_OUTPUT_CHARS = 4000
+
+_INJECTION_PATTERNS: list[re.Pattern] = [re.compile(p, re.IGNORECASE) for p in [
+    r"ignore\s+(all\s+)?previous\s+instructions",
+    r"disregard\s+(all\s+)?(previous|your)\s+(instructions?|rules?|prompt)",
+    r"forget\s+(all\s+)?(previous|your)\s+(instructions?|rules?|prompt)",
+    r"override\s+(all\s+)?(previous\s+)?instructions",
+    r"new\s+instructions?\s*:",
+    r"updated?\s+instructions?\s*:",
+    r"stop\s+following\s+(your\s+)?instructions",
+    r"you\s+are\s+now\s+(a|an)\s+",
+    r"act\s+as\s+(a|an|if)\s+",
+    r"pretend\s+(you\s+are|to\s+be)\s+",
+    r"roleplay\s+as\s+",
+    r"from\s+now\s+on\s+(you\s+)?(are|will|should)\s+",
+    r"switch\s+(to\s+)?mode",
+    r"enter\s+(developer|admin|god|sudo|unrestricted)\s+mode",
+    r"(reveal|show|print|display|repeat|output|tell\s+me)\s+(your|the)\s+(system\s+)?prompt",
+    r"what\s+(are|is)\s+your\s+(instructions?|rules?|system\s+prompt|training|guidelines)",
+    r"(dump|leak|expose)\s+(your\s+)?(prompt|instructions?|context|system)",
+    r"repeat\s+(everything|all)\s+(above|before|prior)",
+    r"\bDAN\b",
+    r"developer\s+mode",
+    r"\bjailbreak\b",
+    r"do\s+anything\s+now",
+    r"no\s+(ethical\s+)?restrictions",
+    r"without\s+(any\s+)?restrictions",
+    r"bypass\s+(your\s+)?(restrictions?|filters?|safety|guidelines)",
+    r"disable\s+(your\s+)?(safety|filter|guardrail)",
+    r"###\s*(instructions?|system|human|assistant|end)",
+    r"<\s*/?system\s*>",
+    r"\[INST\]",
+    r"<<\s*SYS\s*>>",
+    r"<\|im_start\|>",
+    r"<\|im_end\|>",
+    r"\[/INST\]",
+    r"<\|endoftext\|>",
+]]
+
+_INPUT_PII_PATTERNS: list[tuple[re.Pattern, str]] = [
+    (re.compile(r"\b\d{3}[-\s]\d{2}[-\s]\d{4}\b"), "Social Security Number"),
+    (re.compile(r"\b\d{4}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b"), "card number"),
+    (re.compile(r"(?<!\d)\d{10,17}(?!\d)"), "account number"),
+]
+
+_OUTPUT_PII_PATTERNS: list[tuple[re.Pattern, str]] = [
+    (re.compile(r"\b\d{3}[-\s]\d{2}[-\s]\d{4}\b"), "[SSN REDACTED]"),
+    (re.compile(r"\b\d{4}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4}\b"), "[CARD# REDACTED]"),
+    (re.compile(r"(?<!\d)\d{9}(?!\d)"), "[ROUTING# REDACTED]"),
+    (re.compile(r"(?<!\d)\d{10,17}(?!\d)"), "[ACCT# REDACTED]"),
+    (re.compile(r"\b(?:\+1[\s\-.]?)?\(?\d{3}\)?[\s\-.]?\d{3}[\s\-.]?\d{4}\b"), "[PHONE REDACTED]"),
+    (re.compile(r"\b[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}\b"), "[EMAIL REDACTED]"),
+]
+
+@dataclass
+class InputCheckResult:
+    safe: bool
+    reason: str
+    user_message: str
+
+@dataclass
+class OutputCheckResult:
+    safe: bool
+    text: str
+    blocked: bool
+    was_modified: bool
+    reason: str
+
+_INJECTION_USER_MSG = (
+    "⚠️ Your message was flagged as potentially unsafe and could not be processed. "
+    "Please ask a straightforward question about bank SOPs and procedures."
+)
+_PII_INPUT_USER_MSG = (
+    "⚠️ Your message appears to contain sensitive personal information ({pii_type}). "
+    "This assistant answers questions about bank policies — "
+    "please do not include personal financial details in your question."
+)
+_LENGTH_USER_MSG = (
+    "⚠️ Your message is too long ({length:,} characters). "
+    "Please keep questions under {max_len:,} characters."
+)
+_RETRIEVAL_BLOCK_MSG = (
+    "⚠️ **Not covered in SOP documents.**\n\n"
+    "This answer could not be grounded in the available policy content. "
+    "Please consult your supervisor or the relevant policy owner directly."
+)
+_TRUNCATION_SUFFIX = (
+    "\n\n_[Response truncated. Ask a more specific question for a shorter answer.]_"
+)
+
+
+def check_input(text: str) -> InputCheckResult:
+    if len(text) > MAX_INPUT_CHARS:
+        return InputCheckResult(
+            safe=False,
+            reason=f"Input too long: {len(text)} chars (max {MAX_INPUT_CHARS})",
+            user_message=_LENGTH_USER_MSG.format(length=len(text), max_len=MAX_INPUT_CHARS),
+        )
+    for pattern in _INJECTION_PATTERNS:
+        if pattern.search(text):
+            return InputCheckResult(
+                safe=False,
+                reason=f"Injection pattern matched: {pattern.pattern!r}",
+                user_message=_INJECTION_USER_MSG,
+            )
+    for pattern, pii_type in _INPUT_PII_PATTERNS:
+        if pattern.search(text):
+            return InputCheckResult(
+                safe=False,
+                reason=f"PII detected in input: {pii_type}",
+                user_message=_PII_INPUT_USER_MSG.format(pii_type=pii_type),
+            )
+    return InputCheckResult(safe=True, reason="", user_message="")
+
+
+def check_output(
+    text: str,
+    retrieval_confidence: float = 1.0,
+    confidence_threshold: float = 0.25,
+) -> OutputCheckResult:
+    if retrieval_confidence < confidence_threshold:
+        return OutputCheckResult(
+            safe=False, text=_RETRIEVAL_BLOCK_MSG, blocked=True, was_modified=True,
+            reason=f"Retrieval confidence {retrieval_confidence:.3f} < threshold {confidence_threshold}",
+        )
+    was_modified = False
+    processed = text
+    for pattern, replacement in _OUTPUT_PII_PATTERNS:
+        cleaned = pattern.sub(replacement, processed)
+        if cleaned != processed:
+            was_modified = True
+            processed = cleaned
+    cleaned = re.sub(r"<script[^>]*>.*?</script>", "", processed, flags=re.IGNORECASE | re.DOTALL)
+    cleaned = re.sub(r"javascript\s*:", "[blocked]", cleaned, flags=re.IGNORECASE)
+    if cleaned != processed:
+        was_modified = True
+        processed = cleaned
+    cleaned = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", processed)
+    if cleaned != processed:
+        was_modified = True
+        processed = cleaned
+    if len(processed) > MAX_OUTPUT_CHARS:
+        processed = processed[:MAX_OUTPUT_CHARS] + _TRUNCATION_SUFFIX
+        was_modified = True
+    return OutputCheckResult(safe=True, text=processed, blocked=False,
+                             was_modified=was_modified, reason="")
+
+
+================================================================
+IMPORTANT NOTES FOR COPILOT
+================================================================
+
+1. LLM Model: ALWAYS use "openai/gpt-oss-120b" — NOT llama3-70b-8192 (decommissioned)
+
+2. Python path: If on EXL VM, python may be at:
+   C:\Users\vmuser\AppData\Local\Programs\Python\Python314\python.exe
+   Use full path if "python" command not found.
+
+3. Run app from PROJECT ROOT, not from chatbot/ folder.
+   Wrong:  cd chatbot && streamlit run app.py
+   Right:  cd agentic-sop-assistant && python -m streamlit run chatbot/app.py
+
+4. agents/__init__.py must exist (even if empty) for imports to work.
+
+5. data/ folder is created automatically by the scripts — don't create manually.
+
+6. The app imports agents as a package using sys.path.append(os.path.abspath("."))
+   This requires running from project root.
+
+================================================================
